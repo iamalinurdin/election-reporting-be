@@ -19,8 +19,34 @@ class VotingLocationController extends Controller
   {
     $limit = $request->query('limit', 10);
     $page = $request->query('page', 10);
-    $total = VotingLocation::count();
-    $data = VotingLocation::with('address')->paginate($limit);
+    $query = VotingLocation::query()->with('address');
+
+    if ($request->filled('province')) {
+      $query->whereHas('address', function ($query) use ($request) {
+        $query->where('province', $request->query('province'));
+      });
+    }
+
+    if ($request->filled('city')) {
+      $query->whereHas('address', function ($query) use ($request) {
+        $query->where('province', $request->query('city'));
+      });
+    }
+
+    if ($request->filled('district')) {
+      $query->whereHas('address', function ($query) use ($request) {
+        $query->where('province', $request->query('district'));
+      });
+    }
+
+    if ($request->filled('subdistrict')) {
+      $query->whereHas('address', function ($query) use ($request) {
+        $query->where('province', $request->query('subdistrict'));
+      });
+    }
+
+    $total = $query->count();
+    $data = $query->get();
 
     return JsonResponse::success(
       data: VotingLocationResource::collection($data),
