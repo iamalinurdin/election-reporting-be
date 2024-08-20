@@ -27,6 +27,7 @@ use App\Http\Controllers\ConfigurationController;
 use App\Http\Controllers\ElectionParticipantController;
 use App\Http\Controllers\ElectionVoterController;
 use App\Http\Controllers\PostController;
+use App\Http\Controllers\RecapitulationResultController;
 use App\Http\Controllers\SuaraController;
 use App\Http\Controllers\VolunteerController;
 use App\Http\Controllers\VotingLocationController;
@@ -65,6 +66,7 @@ Route::apiResource('posts', PostController::class);
 Route::apiResource('volunteers', VolunteerController::class);
 Route::apiResource('election-voters', ElectionVoterController::class);
 Route::apiResource('communities', CommunityController::class);
+Route::apiResource('recapitulation-results', RecapitulationResultController::class);
 Route::apiResource('election-participants', ElectionParticipantController::class);
 
 Route::apiResource('posko', PoskoController::class);

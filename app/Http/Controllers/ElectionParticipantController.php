@@ -19,7 +19,7 @@ class ElectionParticipantController extends Controller
     $limit = $request->query('limit', 10);
     $page = $request->query('page', 10);
     $total = ElectionParticipant::count();
-    $data = ElectionParticipant::paginate($limit);
+    $data = ElectionParticipant::with('recapitulations')->paginate($limit);
 
     return JsonResponse::success(
       data: ElectionParticipantResource::collection($data),
