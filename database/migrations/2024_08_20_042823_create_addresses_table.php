@@ -11,12 +11,15 @@ return new class extends Migration
    */
   public function up(): void
   {
-    Schema::create('voting_locations', function (Blueprint $table) {
+    Schema::create('addresses', function (Blueprint $table) {
       $table->id();
-      $table->string('name')->unique();
-      $table->string('coordinator');
-      $table->string('phone_number');
-      $table->string('coordinate');
+      $table->string('addressable_type');
+      $table->bigInteger('addressable_id');
+      $table->text('address');
+      $table->string('subdistrict');
+      $table->string('district');
+      $table->string('city');
+      $table->string('province');
       $table->timestamps();
     });
   }
@@ -26,6 +29,6 @@ return new class extends Migration
    */
   public function down(): void
   {
-    Schema::dropIfExists('voting_locations');
+    Schema::dropIfExists('addresses');
   }
 };

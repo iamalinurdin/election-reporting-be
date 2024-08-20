@@ -24,6 +24,7 @@ use App\Http\Controllers\BroadcastingNotifikasiController;
 use App\Http\Controllers\CalonController;
 use App\Http\Controllers\ConfigurationController;
 use App\Http\Controllers\SuaraController;
+use App\Http\Controllers\VotingLocationController;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
 
@@ -53,6 +54,7 @@ Route::apiResource('flagship-programmes', FlagshipProgrammeController::class);
 Route::apiResource('about-programmes', AboutProgrammeController::class);
 Route::apiResource('registrations', RegistrationController::class);
 Route::apiResource('configurations', ConfigurationController::class);
+Route::apiResource('voting-locations', VotingLocationController::class);
 
 Route::apiResource('posko', PoskoController::class);
 Route::prefix('posko')->group(function () {
