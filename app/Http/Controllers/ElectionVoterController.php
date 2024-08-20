@@ -19,8 +19,42 @@ class ElectionVoterController extends Controller
   {
     $limit = $request->query('limit', 10);
     $page = $request->query('page', 10);
-    $total = ElectionVoter::count();
-    $data = ElectionVoter::with('address')->paginate($limit);
+    $query = ElectionVoter::query()->with('address');
+
+    if ($request->filled('sex')) {
+      $query->where('sex', $request->query('sex'));
+    }
+
+    if ($request->filled('classification')) {
+      $query->where('age_classification', $request->query('classification'));
+    }
+
+    if ($request->filled('province')) {
+      $query->whereHas('address', function ($query) use ($request) {
+        $query->where('province', $request->query('province'));
+      });
+    }
+
+    if ($request->filled('city')) {
+      $query->whereHas('address', function ($query) use ($request) {
+        $query->where('province', $request->query('city'));
+      });
+    }
+
+    if ($request->filled('district')) {
+      $query->whereHas('address', function ($query) use ($request) {
+        $query->where('province', $request->query('district'));
+      });
+    }
+
+    if ($request->filled('subdistrict')) {
+      $query->whereHas('address', function ($query) use ($request) {
+        $query->where('province', $request->query('subdistrict'));
+      });
+    }
+
+    $total = $query->count();
+    $data = $query->get();
 
     return JsonResponse::success(
       data: ElectionVoterResource::collection($data),

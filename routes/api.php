@@ -14,21 +14,21 @@ use App\Http\Controllers\RegistrationController;
 use App\Http\Controllers\RoleController;
 use App\Http\Controllers\TestimonyController;
 use App\Http\Controllers\UserController;
-use App\Http\Controllers\PoskoController;
-use App\Http\Controllers\RelawanController;
-use App\Http\Controllers\TokohController;
-use App\Http\Controllers\TpsController;
-use App\Http\Controllers\BannerController;
-use App\Http\Controllers\DaftarPemilihController;
-use App\Http\Controllers\BroadcastingNotifikasiController;
-use App\Http\Controllers\CalonController;
+// use App\Http\Controllers\PoskoController;
+// use App\Http\Controllers\RelawanController;
+// use App\Http\Controllers\TokohController;
+// use App\Http\Controllers\TpsController;
+// use App\Http\Controllers\BannerController;
+// use App\Http\Controllers\DaftarPemilihController;
+// use App\Http\Controllers\BroadcastingNotifikasiController;
+// use App\Http\Controllers\CalonController;
+// use App\Http\Controllers\SuaraController;
 use App\Http\Controllers\CommunityController;
 use App\Http\Controllers\ConfigurationController;
 use App\Http\Controllers\ElectionParticipantController;
 use App\Http\Controllers\ElectionVoterController;
 use App\Http\Controllers\PostController;
 use App\Http\Controllers\RecapitulationResultController;
-use App\Http\Controllers\SuaraController;
 use App\Http\Controllers\VolunteerController;
 use App\Http\Controllers\VotingLocationController;
 use Illuminate\Http\Request;
@@ -70,63 +70,63 @@ Route::apiResource('communities', CommunityController::class);
 Route::apiResource('recapitulation-results', RecapitulationResultController::class);
 Route::apiResource('election-participants', ElectionParticipantController::class);
 
-Route::apiResource('posko', PoskoController::class);
-Route::prefix('posko')->group(function () {
-  Route::post('store', [PoskoController::class, 'store']);
-  Route::post('update/{id}', [PoskoController::class, 'update']);
-  Route::get('destroy/{id}', [PoskoController::class, 'destroy']);
-});
+// Route::apiResource('posko', PoskoController::class);
+// Route::prefix('posko')->group(function () {
+//   Route::post('store', [PoskoController::class, 'store']);
+//   Route::post('update/{id}', [PoskoController::class, 'update']);
+//   Route::get('destroy/{id}', [PoskoController::class, 'destroy']);
+// });
 
-Route::apiResource('relawan', RelawanController::class);
-Route::prefix('relawan')->group(function () {
-  Route::post('register-akun', [RelawanController::class, 'registerRelawan']);
-  Route::post('store', [RelawanController::class, 'store']);
-  Route::post('update/{id}', [RelawanController::class, 'update']);
-  Route::get('destroy/{id}', [RelawanController::class, 'destroy']);
-});
+// Route::apiResource('relawan', RelawanController::class);
+// Route::prefix('relawan')->group(function () {
+//   Route::post('register-akun', [RelawanController::class, 'registerRelawan']);
+//   Route::post('store', [RelawanController::class, 'store']);
+//   Route::post('update/{id}', [RelawanController::class, 'update']);
+//   Route::get('destroy/{id}', [RelawanController::class, 'destroy']);
+// });
 
-Route::apiResource('tokoh', TokohController::class);
-Route::prefix('tokoh')->group(function () {
-  Route::post('store', [TokohController::class, 'store']);
-  Route::post('update/{id}', [TokohController::class, 'update']);
-  Route::get('destroy/{id}', [TokohController::class, 'destroy']);
-});
+// Route::apiResource('tokoh', TokohController::class);
+// Route::prefix('tokoh')->group(function () {
+//   Route::post('store', [TokohController::class, 'store']);
+//   Route::post('update/{id}', [TokohController::class, 'update']);
+//   Route::get('destroy/{id}', [TokohController::class, 'destroy']);
+// });
 
-Route::apiResource('tps', TpsController::class);
-Route::prefix('tps')->group(function () {
-  Route::post('store', [TpsController::class, 'store']);
-  Route::post('update/{id}', [TpsController::class, 'update']);
-  Route::get('destroy/{id}', [TpsController::class, 'destroy']);
-});
+// Route::apiResource('tps', TpsController::class);
+// Route::prefix('tps')->group(function () {
+//   Route::post('store', [TpsController::class, 'store']);
+//   Route::post('update/{id}', [TpsController::class, 'update']);
+//   Route::get('destroy/{id}', [TpsController::class, 'destroy']);
+// });
 
-Route::apiResource('banner', BannerController::class);
-Route::prefix('banner')->group(function () {
-  Route::post('store', [BannerController::class, 'store']);
-  Route::post('update/{id}', [BannerController::class, 'update']);
-  Route::get('destroy/{id}', [BannerController::class, 'destroy']);
-});
+// Route::apiResource('banner', BannerController::class);
+// Route::prefix('banner')->group(function () {
+//   Route::post('store', [BannerController::class, 'store']);
+//   Route::post('update/{id}', [BannerController::class, 'update']);
+//   Route::get('destroy/{id}', [BannerController::class, 'destroy']);
+// });
 
-Route::apiResource('calon', CalonController::class);
-Route::prefix('calon')->group(function () {
-  Route::post('store', [CalonController::class, 'store']);
-  Route::post('update/{id}', [CalonController::class, 'update']);
-  Route::get('destroy/{id}', [CalonController::class, 'destroy']);
-});
+// Route::apiResource('calon', CalonController::class);
+// Route::prefix('calon')->group(function () {
+//   Route::post('store', [CalonController::class, 'store']);
+//   Route::post('update/{id}', [CalonController::class, 'update']);
+//   Route::get('destroy/{id}', [CalonController::class, 'destroy']);
+// });
 
-Route::apiResource('suara', SuaraController::class);
-Route::prefix('suara')->group(function () {
-  Route::post('store', [SuaraController::class, 'create']);
-});
+// Route::apiResource('suara', SuaraController::class);
+// Route::prefix('suara')->group(function () {
+//   Route::post('store', [SuaraController::class, 'create']);
+// });
 
-Route::prefix('relawan/v1')
-  // ->middleware(['auth:sanctum'])
-  ->group(function () {
-    Route::apiResource('daftar-pemilih', DaftarPemilihController::class);
-    Route::prefix('daftar-pemilih')->group(function () {
-      Route::post('store', [DaftarPemilihController::class, 'store']);
-      Route::post('update/{id}', [DaftarPemilihController::class, 'update']);
-      Route::get('destroy/{id}', [DaftarPemilihController::class, 'destroy']);
-    });
-  });
+// Route::prefix('relawan/v1')
+//   ->middleware(['auth:sanctum'])
+//   ->group(function () {
+//     Route::apiResource('daftar-pemilih', DaftarPemilihController::class);
+//     Route::prefix('daftar-pemilih')->group(function () {
+//       Route::post('store', [DaftarPemilihController::class, 'store']);
+//       Route::post('update/{id}', [DaftarPemilihController::class, 'update']);
+//       Route::get('destroy/{id}', [DaftarPemilihController::class, 'destroy']);
+//     });
+//   });
 
-Route::post('message', [BroadcastingNotifikasiController::class, 'message']);
+// Route::post('message', [BroadcastingNotifikasiController::class, 'message']);

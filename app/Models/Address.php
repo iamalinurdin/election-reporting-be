@@ -10,6 +10,8 @@ class Address extends Model
 {
   use HasFactory;
 
+  protected $appends = ['full_address'];
+
   /**
    * Undocumented variable
    *
@@ -25,5 +27,10 @@ class Address extends Model
   public function addressable(): MorphTo
   {
     return $this->morphTo();
+  }
+
+  public function getFullAddressAttribute()
+  {
+    return "$this->address, $this->subdistrict, $this->district, $this->city, $this->province";
   }
 }
