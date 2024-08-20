@@ -11,14 +11,14 @@ return new class extends Migration
    */
   public function up(): void
   {
-    Schema::create('registrations', function (Blueprint $table) {
+    Schema::create('volunteers', function (Blueprint $table) {
       $table->id();
-      $table->string('name');
-      $table->string('email')->unique();
-      $table->string('phone_number')->unique();
-      $table->string('nik')->unique();
+      $table->integer('user_id');
+      $table->bigInteger('voting_location_id')->nullable();
+      $table->bigInteger('post_id');
+      $table->string('nik');
+      $table->string('phone_number');
       $table->string('coordinate');
-      $table->enum('status', ['approved', 'declined', 'idle'])->default('idle');
       $table->timestamps();
     });
   }
@@ -28,6 +28,6 @@ return new class extends Migration
    */
   public function down(): void
   {
-    Schema::dropIfExists('registrations');
+    Schema::dropIfExists('volunteers');
   }
 };

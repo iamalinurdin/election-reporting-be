@@ -7,6 +7,7 @@ use App\Http\Resources\RegistrationResource;
 use App\Models\Registration;
 use App\Models\Relawan;
 use App\Models\User;
+use App\Models\Volunteer;
 use Exception;
 use Illuminate\Http\Request;
 use Illuminate\Http\Response;
@@ -23,7 +24,7 @@ class RegistrationController extends Controller
     $limit = $request->query('limit', 10);
     $page = $request->query('page', 1);
     $total = Registration::count();
-    $data = Registration::paginate($limit);
+    $data = Registration::with('address')->paginate($limit);
 
     return JsonResponse::success(
       data: RegistrationResource::collection($data),
@@ -41,12 +42,32 @@ class RegistrationController extends Controller
   public function store(Request $request)
   {
     try {
-      $data = Registration::create($request->all());
+      DB::beginTransaction();
+
+      $data = Registration::create([
+        'name' => $request->post('name'),
+        'email' => $request->post('email'),
+        'phone_number' => $request->post('phone_number'),
+        'nik' => $request->post('nik'),
+        'coordinate' => $request->post('coordinate'),
+      ]);
+
+      $data->address()->create([
+        'address' => $request->post('address'),
+        'subdistrict' => $request->post('subdistrict'),
+        'district' => $request->post('district'),
+        'city' => $request->post('city'),
+        'province' => $request->post('province'),
+      ]);
+
+      DB::commit();
 
       return JsonResponse::success(
         data: new RegistrationResource($data)
       );
     } catch (Exception $exception) {
+      DB::rollBack();
+
       return JsonResponse::error(
         message: $exception->getMessage()
       );
@@ -125,5 +146,59 @@ class RegistrationController extends Controller
   public function destroy(string $id)
   {
     //
+  }
+
+  /**
+   * Undocumented function
+   *
+   * @param Request $request
+   * @param string $id
+   * @return void
+   */
+  public function approval(Request $request)
+  {
+    try {
+      DB::beginTransaction();
+
+      $status = $request->post('status');
+      $id = $request->post('id');
+      $data = Registration::find($id);
+
+      $data->update([
+        'status' => $status
+      ]);
+
+      if ($status == 'approved') {
+        $user = User::create([
+          'name' => $data->name,
+          'email' => $data->email,
+          'password' => Hash::make($data->email),
+          'roles' => 'volunteer'
+        ]);
+
+        Volunteer::create([
+          'voting_location_id' => $request->post('voting_location_id'),
+          'post_id' => $request->post('post_id'),
+          // 'name' => $data->name,
+          'nik' => $data->nik,
+          'phone_number' => $data->phone_number,
+          'coordinate' => $data->coordinate,
+          'user_id' => $user->id,
+        ]);
+      }
+
+      DB::commit();
+
+      return JsonResponse::success(
+        code: Response::HTTP_CREATED,
+        data: new RegistrationResource($data)
+      );
+    } catch (Exception $exception) {
+      DB::rollBack();
+
+      return JsonResponse::error(
+        message: $exception->getMessage()
+      );
+    }
   }
 }
