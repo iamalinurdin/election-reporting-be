@@ -19,6 +19,7 @@ return new class extends Migration
       $table->string('nik');
       $table->string('phone_number');
       $table->string('coordinate');
+      $table->integer('points')->default(0);
       $table->timestamps();
     });
   }
