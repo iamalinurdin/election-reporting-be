@@ -22,6 +22,7 @@ use App\Http\Controllers\BannerController;
 use App\Http\Controllers\DaftarPemilihController;
 use App\Http\Controllers\BroadcastingNotifikasiController;
 use App\Http\Controllers\CalonController;
+use App\Http\Controllers\CommunityController;
 use App\Http\Controllers\ConfigurationController;
 use App\Http\Controllers\ElectionVoterController;
 use App\Http\Controllers\PostController;
@@ -62,6 +63,7 @@ Route::apiResource('voting-locations', VotingLocationController::class);
 Route::apiResource('posts', PostController::class);
 Route::apiResource('volunteers', VolunteerController::class);
 Route::apiResource('election-voters', ElectionVoterController::class);
+Route::apiResource('communities', CommunityController::class);
 
 Route::apiResource('posko', PoskoController::class);
 Route::prefix('posko')->group(function () {
