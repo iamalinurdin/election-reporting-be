@@ -24,6 +24,7 @@ use App\Http\Controllers\BroadcastingNotifikasiController;
 use App\Http\Controllers\CalonController;
 use App\Http\Controllers\CommunityController;
 use App\Http\Controllers\ConfigurationController;
+use App\Http\Controllers\ElectionParticipantController;
 use App\Http\Controllers\ElectionVoterController;
 use App\Http\Controllers\PostController;
 use App\Http\Controllers\SuaraController;
@@ -64,6 +65,7 @@ Route::apiResource('posts', PostController::class);
 Route::apiResource('volunteers', VolunteerController::class);
 Route::apiResource('election-voters', ElectionVoterController::class);
 Route::apiResource('communities', CommunityController::class);
+Route::apiResource('election-participants', ElectionParticipantController::class);
 
 Route::apiResource('posko', PoskoController::class);
 Route::prefix('posko')->group(function () {
