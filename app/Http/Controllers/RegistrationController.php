@@ -176,14 +176,21 @@ class RegistrationController extends Controller
           'roles' => 'volunteer'
         ]);
 
-        Volunteer::create([
+        $volunteer = Volunteer::create([
           'voting_location_id' => $request->post('voting_location_id'),
           'post_id' => $request->post('post_id'),
-          // 'name' => $data->name,
           'nik' => $data->nik,
           'phone_number' => $data->phone_number,
           'coordinate' => $data->coordinate,
           'user_id' => $user->id,
+        ]);
+
+        $volunteer->address()->create([
+          'address' => $data->address->address,
+          'subdistrict' => $data->address->subdistrict,
+          'district' => $data->address->district,
+          'city' => $data->address->city,
+          'province' => $data->address->province,
         ]);
       }
 
