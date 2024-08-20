@@ -20,7 +20,7 @@ class VotingLocationController extends Controller
     $limit = $request->query('limit', 10);
     $page = $request->query('page', 10);
     $total = VotingLocation::count();
-    $data = VotingLocation::paginate($limit);
+    $data = VotingLocation::with('address')->paginate($limit);
 
     return JsonResponse::success(
       data: VotingLocationResource::collection($data),
