@@ -19,8 +19,16 @@ class VolunteerController extends Controller
   {
     $limit = $request->query('limit', 10);
     $page = $request->query('page', 10);
-    $total = Volunteer::count();
-    $data = Volunteer::with('address', 'user')->paginate($limit);
+    $query = Volunteer::query()->with('address', 'user', 'post', 'votingLocation');
+
+    if ($request->filled('name')) {
+      $query->whereHas('user', function ($query) use ($request) {
+        $query->where('name', 'LIKE', "%{$request->query('name')}%");
+      });
+    }
+
+    $total = $query->count();
+    $data = $query->get();
 
     return JsonResponse::success(
       data: VolunteerResource::collection($data),

@@ -38,4 +38,24 @@ class Volunteer extends Model
   {
     return $this->belongsTo(User::class);
   }
+
+  /**
+   * Get the post that owns the Volunteer
+   *
+   * @return \Illuminate\Database\Eloquent\Relations\BelongsTo
+   */
+  public function post(): BelongsTo
+  {
+    return $this->belongsTo(Post::class);
+  }
+
+  /**
+   * Get the votingLocation that owns the Volunteer
+   *
+   * @return \Illuminate\Database\Eloquent\Relations\BelongsTo
+   */
+  public function votingLocation(): BelongsTo
+  {
+    return $this->belongsTo(VotingLocation::class);
+  }
 }
