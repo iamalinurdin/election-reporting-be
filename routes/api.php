@@ -48,6 +48,7 @@ Route::put('flagship-programmes/{id}/toggle-status', [FlagshipProgrammeControlle
 Route::get('configurations/latest', [ConfigurationController::class, 'latest']);
 Route::get('abouts/latest', [AboutController::class, 'latest']);
 Route::put('registrations/approval', [RegistrationController::class, 'approval']);
+Route::get('communities/export', [CommunityController::class, 'export']);
 
 Route::apiResource('abouts', AboutController::class);
 Route::apiResource('articles', ArticleController::class);

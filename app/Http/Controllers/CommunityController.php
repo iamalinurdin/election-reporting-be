@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Exports\CommunityExport;
 use App\Helpers\JsonResponse;
 use App\Http\Resources\CommunityResource;
 use App\Models\Community;
@@ -9,6 +10,7 @@ use Exception;
 use Illuminate\Http\Request;
 use Illuminate\Http\Response;
 use Illuminate\Support\Facades\DB;
+use Maatwebsite\Excel\Facades\Excel;
 
 class CommunityController extends Controller
 {
@@ -107,6 +109,24 @@ class CommunityController extends Controller
     } catch (Exception $exception) {
       DB::rollBack();
 
+      return JsonResponse::error(
+        message: $exception->getMessage()
+      );
+    }
+  }
+
+  /**
+   * Undocumented function
+   *
+   * @return void
+   */
+  public function export()
+  {
+    try {
+      Excel::download(new CommunityExport, 'community.xlsx');
+
+      return 'pl';
+    } catch (Exception $exception) {
       return JsonResponse::error(
         message: $exception->getMessage()
       );
