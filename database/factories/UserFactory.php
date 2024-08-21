@@ -47,7 +47,6 @@ class UserFactory extends Factory
     return $this->state(fn(array $attributes) => [
       'name' => 'Superadmin',
       'email' => 'superadmin@kampanye.test',
-      'roles' => 'super-admin'
     ]);
   }
 
@@ -56,7 +55,6 @@ class UserFactory extends Factory
     return $this->state(fn(array $attributes) => [
       'name' => 'Admin',
       'email' => 'admin@kampanye.test',
-      'roles' => 'admin'
     ]);
   }
 
@@ -65,7 +63,6 @@ class UserFactory extends Factory
     return $this->state(fn(array $attributes) => [
       'name' => 'Relawan',
       'email' => 'relawan@kampanye.test',
-      'roles' => 'relawan'
     ]);
   }
 }

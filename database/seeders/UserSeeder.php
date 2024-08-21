@@ -13,8 +13,8 @@ class UserSeeder extends Seeder
    */
   public function run(): void
   {
-    User::factory()->superadmin()->create();
-    User::factory()->admin()->create();
-    User::factory()->volunteer()->create();
+    User::factory()->superadmin()->create()->assignRole('super-admin');
+    User::factory()->admin()->create()->assignRole('admin');
+    User::factory()->volunteer()->create()->assignRole('volunteer');
   }
 }

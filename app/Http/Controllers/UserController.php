@@ -9,7 +9,6 @@ use Exception;
 use Illuminate\Http\Request;
 use Illuminate\Http\Response;
 use Illuminate\Support\Facades\Hash;
-use App\Http\Controllers\RelawanController;
 
 class UserController extends Controller
 {
@@ -21,8 +20,9 @@ class UserController extends Controller
   {
     $limit = $request->query('limit', 10);
     $page = $request->query('page', 10);
-    $total = User::count();
-    $data = User::with('roles')->paginate($limit);
+    $query = User::query()->with('roles');
+    $total = $query->count();
+    $data = $query->paginate($limit);
 
     return JsonResponse::success(
       data: UserResource::collection($data),
@@ -44,14 +44,9 @@ class UserController extends Controller
         'name' => $request->post('name'),
         'email' => $request->post('email'),
         'password' => Hash::make($request->post('password')),
-        'roles' =>$request->post(roles)
       ]);
 
-      $data->assignRole($request->post('roles'));
-
-      if($request->post('kategori') == 'relawan'){
-        RelawanController::storeRelawan($request);
-      }
+      $data->assignRole($request->post('role'));
 
       return JsonResponse::success(
         code: Response::HTTP_CREATED,
@@ -86,5 +81,31 @@ class UserController extends Controller
   public function destroy(string $id)
   {
     //
+  }
+
+  /**
+   * Undocumented function
+   *
+   * @param Request $request
+   * @return void
+   */
+  public function toggleStatus(Request $request)
+  {
+    try {
+      $id = $request->post('user_id');
+      $status = $request->post('status');
+      $data = User::find($id);
+
+      $data->status = $status;
+      $data->save();
+
+      return JsonResponse::success(
+        data: new UserResource($data)
+      );
+    } catch (Exception $exception) {
+      return JsonResponse::error(
+        message: $exception->getMessage()
+      );
+    }
   }
 }

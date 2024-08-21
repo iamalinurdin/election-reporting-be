@@ -6,12 +6,13 @@ namespace App\Models;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 use Illuminate\Notifications\Notifiable;
+use Kra8\Snowflake\HasSnowflakePrimary;
 use Laravel\Sanctum\HasApiTokens;
 use Spatie\Permission\Traits\HasRoles;
 
 class User extends Authenticatable
 {
-  use HasFactory, Notifiable, HasRoles, HasApiTokens, Notifiable;
+  use HasFactory, Notifiable, HasRoles, HasApiTokens, Notifiable, HasSnowflakePrimary;
 
   /**
    * The attributes that are mass assignable.
@@ -25,8 +26,13 @@ class User extends Authenticatable
     'roles'
   ];
 
+  /**
+   * Undocumented variable
+   *
+   * @var array
+   */
   protected $casts = [
-    'id'               => 'string',
+    'id' => 'string',
   ];
 
   /**
@@ -39,6 +45,11 @@ class User extends Authenticatable
     'remember_token',
   ];
 
+  /**
+   * Undocumented variable
+   *
+   * @var string
+   */
   protected $guard_name = 'web';
 
   /**
@@ -54,13 +65,22 @@ class User extends Authenticatable
     ];
   }
 
-  public function relawan()
-  {
-    return $this->hasOne(Relawan::class, 'id_user', 'id');
-  }
+  /**
+   * Undocumented variable
+   *
+   * @var array
+   */
+  protected $appends = [
+    'role'
+  ];
 
-  // public function getRoleNamesAttribute()
-  //   {
-  //       return $this->getRoleNames();
-  //   }
+  /**
+   * Undocumented function
+   *
+   * @return string
+   */
+  public function getRoleAttribute(): string
+  {
+    return $this->roles[0]->name;
+  }
 }
