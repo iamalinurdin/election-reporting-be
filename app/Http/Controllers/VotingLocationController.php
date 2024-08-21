@@ -18,7 +18,7 @@ class VotingLocationController extends Controller
   public function index(Request $request)
   {
     $limit = $request->query('limit', 10);
-    $page = $request->query('page', 10);
+    $page = $request->query('page', 1);
     $query = VotingLocation::query()->with('address');
 
     if ($request->filled('province')) {

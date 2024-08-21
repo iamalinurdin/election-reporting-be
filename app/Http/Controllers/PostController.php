@@ -18,9 +18,35 @@ class PostController extends Controller
   public function index(Request $request)
   {
     $limit = $request->query('limit', 10);
-    $page = $request->query('page', 10);
-    $total = Post::count();
-    $data = Post::paginate($limit);
+    $page = $request->query('page', 1);
+    $query = Post::query()->with('address');
+
+    if ($request->filled('province')) {
+      $query->whereHas('address', function ($query) use ($request) {
+        $query->where('province', $request->query('province'));
+      });
+    }
+
+    if ($request->filled('city')) {
+      $query->whereHas('address', function ($query) use ($request) {
+        $query->where('province', $request->query('city'));
+      });
+    }
+
+    if ($request->filled('district')) {
+      $query->whereHas('address', function ($query) use ($request) {
+        $query->where('province', $request->query('district'));
+      });
+    }
+
+    if ($request->filled('subdistrict')) {
+      $query->whereHas('address', function ($query) use ($request) {
+        $query->where('province', $request->query('subdistrict'));
+      });
+    }
+
+    $total = $query->count();
+    $data = $query->get();
 
     return JsonResponse::success(
       data: PostResource::collection($data),
