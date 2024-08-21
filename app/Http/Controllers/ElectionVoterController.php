@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\Helpers\JsonResponse;
 use App\Http\Resources\ElectionVoterResource;
 use App\Models\ElectionVoter;
+use App\Models\Volunteer;
 use Exception;
 use Illuminate\Http\Request;
 use Illuminate\Http\Response;
@@ -73,9 +74,11 @@ class ElectionVoterController extends Controller
   {
     try {
       DB::beginTransaction();
+      $volunteerId = $request->post('volunteer_id');
+      $volunteer = Volunteer::find($volunteerId);
 
       $data = ElectionVoter::create([
-        'volunteer_id' => $request->post('volunteer_id'),
+        'volunteer_id' => $volunteerId,
         'voting_location_id' => $request->post('voting_location_id'),
         'name' => $request->post('name'),
         'nik' => $request->post('nik'),
@@ -91,6 +94,10 @@ class ElectionVoterController extends Controller
         'district' => $request->post('district'),
         'city' => $request->post('city'),
         'province' => $request->post('province'),
+      ]);
+
+      $volunteer->update([
+        'points' => $volunteer->points += 1
       ]);
 
       DB::commit();
