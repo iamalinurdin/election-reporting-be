@@ -14,8 +14,8 @@ return new class extends Migration
     Schema::create('volunteers', function (Blueprint $table) {
       $table->id();
       $table->integer('user_id');
-      $table->bigInteger('voting_location_id')->nullable();
-      $table->bigInteger('post_id');
+      $table->string('voting_location_id');
+      $table->string('post_id');
       $table->string('nik');
       $table->string('phone_number');
       $table->string('coordinate');

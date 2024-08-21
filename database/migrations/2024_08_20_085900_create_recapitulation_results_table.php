@@ -13,8 +13,8 @@ return new class extends Migration
   {
     Schema::create('recapitulation_results', function (Blueprint $table) {
       $table->id();
-      $table->bigInteger('voting_location_id')->unsigned();
-      $table->bigInteger('election_participant_id')->unsigned();
+      $table->string('voting_location_id');
+      $table->string('election_participant_id');
       $table->integer('vote_counts')->default(0);
       $table->string('evidence');
       $table->timestamps();

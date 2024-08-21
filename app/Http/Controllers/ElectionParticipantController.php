@@ -19,7 +19,7 @@ class ElectionParticipantController extends Controller
     $limit = $request->query('limit', 10);
     $page = $request->query('page', 10);
     $total = ElectionParticipant::count();
-    $data = ElectionParticipant::with('recapitulations')->paginate($limit);
+    $data = ElectionParticipant::with('recapitulationResults', 'recapitulationResults.votingLocation')->paginate($limit);
 
     return JsonResponse::success(
       data: ElectionParticipantResource::collection($data),
@@ -38,6 +38,7 @@ class ElectionParticipantController extends Controller
     try {
       $data = ElectionParticipant::create([
         'election_number' => $request->post('election_number'),
+        'election_type' => $request->post('election_type'),
         'participant_name' => $request->post('participant_name'),
         'vice_participant_name' => $request->post('vice_participant_name'),
         'participant_photo' => $request->post('participant_photo'),

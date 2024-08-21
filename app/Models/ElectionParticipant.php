@@ -19,12 +19,21 @@ class ElectionParticipant extends Model
   protected $guarded = [];
 
   /**
+   * Undocumented variable
+   *
+   * @var array
+   */
+  protected $casts = [
+    'id' => 'string',
+  ];
+
+  /**
    * Get all of the recapitulations for the ElectionParticipant
    *
    * @return \Illuminate\Database\Eloquent\Relations\HasMany
    */
-  public function recapitulations(): HasMany
+  public function recapitulationResults(): HasMany
   {
-    return $this->hasMany(RecapitulationResult::class);
+    return $this->hasMany(RecapitulationResult::class, 'election_participant_id', 'id');
   }
 }

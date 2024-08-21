@@ -14,6 +14,7 @@ return new class extends Migration
     Schema::create('election_participants', function (Blueprint $table) {
       $table->id();
       $table->string('election_number', 2);
+      $table->enum('election_type', ['presiden', 'gubernur', 'walikota', 'bupati']);
       $table->string('participant_name');
       $table->string('vice_participant_name');
       $table->string('participant_photo');

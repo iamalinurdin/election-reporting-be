@@ -13,7 +13,7 @@ return new class extends Migration
   {
     Schema::create('communities', function (Blueprint $table) {
       $table->id();
-      $table->bigInteger('volunteer_id')->unsigned();
+      $table->string('volunteer_id');
       $table->string('name');
       $table->string('nik')->nullable();
       $table->string('phone_number');
