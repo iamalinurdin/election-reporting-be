@@ -2,22 +2,21 @@
 
 namespace Database\Seeders;
 
-use App\Models\Registration;
+use App\Models\VotingLocation;
 use Illuminate\Database\Console\Seeds\WithoutModelEvents;
 use Illuminate\Database\Seeder;
 
-class RegistrationSeeder extends Seeder
+class VotingLocationSeeder extends Seeder
 {
   /**
    * Run the database seeds.
    */
   public function run(): void
   {
-    Registration::create([
-      "name" => "Enjang",
-      "email" => "enjang@gmail.com",
-      "phone_number" => "081234567891",
-      "nik" => "1234567890123457",
+    VotingLocation::create([
+      "name" => "TPS Mampang VIII 1",
+      "coordinator" => "Ruhiyat",
+      "phone_number" => "081234567890",
       "coordinate" => "-6.247046187661611, 106.83210611343385",
     ])->address()->create([
       "address" => "Jl. Mampang VIII",

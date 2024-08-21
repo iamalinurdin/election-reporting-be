@@ -16,4 +16,13 @@ class RecapitulationResult extends Model
    * @var array
    */
   protected $guarded = [];
+
+  /**
+   * Undocumented variable
+   *
+   * @var array
+   */
+  protected $casts = [
+    'id' => 'string',
+  ];
 }

@@ -20,6 +20,15 @@ class Volunteer extends Model
   protected $guarded = [];
 
   /**
+   * Undocumented variable
+   *
+   * @var array
+   */
+  protected $casts = [
+    'id' => 'string',
+  ];
+
+  /**
    * Undocumented function
    *
    * @return MorphOne

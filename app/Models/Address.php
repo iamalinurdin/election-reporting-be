@@ -5,10 +5,11 @@ namespace App\Models;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\MorphTo;
+use Kra8\Snowflake\HasSnowflakePrimary;
 
 class Address extends Model
 {
-  use HasFactory;
+  use HasFactory, HasSnowflakePrimary;
 
   protected $appends = ['full_address'];
 
@@ -18,6 +19,15 @@ class Address extends Model
    * @var array
    */
   protected $guarded = [];
+
+  /**
+   * Undocumented variable
+   *
+   * @var array
+   */
+  protected $casts = [
+    'id' => 'string',
+  ];
 
   /**
    * Undocumented function

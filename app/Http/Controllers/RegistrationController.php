@@ -178,8 +178,6 @@ class RegistrationController extends Controller
       $id = $request->post('id');
       $data = Registration::find($id);
 
-      dd($data);
-
       $data->update([
         'status' => $status
       ]);
