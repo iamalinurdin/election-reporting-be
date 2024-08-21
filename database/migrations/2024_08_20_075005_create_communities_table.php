@@ -13,10 +13,15 @@ return new class extends Migration
   {
     Schema::create('communities', function (Blueprint $table) {
       $table->id();
+      $table->bigInteger('volunteer_id')->unsigned();
       $table->string('name');
       $table->string('nik')->nullable();
       $table->string('phone_number');
       $table->string('coordinate');
+      $table->string('religion');
+      $table->string('education');
+      $table->date('birthdate');
+      $table->enum('sex', ['male', 'female']);
       $table->text('description')->nullable();
       $table->string('photo')->nullable();
       $table->timestamps();

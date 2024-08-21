@@ -23,8 +23,22 @@ class RegistrationController extends Controller
   {
     $limit = $request->query('limit', 10);
     $page = $request->query('page', 1);
-    $total = Registration::count();
-    $data = Registration::with('address')->paginate($limit);
+    $query = Registration::query()->with('address');
+
+    if ($request->filled('name')) {
+      $name = $request->query('name');
+
+      $query->where('name', 'LIKE', "%{$name}%");
+    }
+
+    if ($request->filled('email')) {
+      $email = $request->query('email');
+
+      $query->where('email', 'LIKE', "%{$email}%");
+    }
+
+    $total = $query->count();
+    $data = $query->paginate($limit);
 
     return JsonResponse::success(
       data: RegistrationResource::collection($data),
@@ -163,6 +177,8 @@ class RegistrationController extends Controller
       $status = $request->post('status');
       $id = $request->post('id');
       $data = Registration::find($id);
+
+      dd($data);
 
       $data->update([
         'status' => $status
