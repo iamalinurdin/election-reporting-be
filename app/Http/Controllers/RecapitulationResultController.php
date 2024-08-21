@@ -46,7 +46,7 @@ class RecapitulationResultController extends Controller
       if ($result) {
         $result->update([
           'vote_counts' => $request->post('vote_counts'),
-          'evidence' => $request->post('evidence'),
+          'evidence' => $request->post('evidence') ?? '-',
         ]);
 
         return JsonResponse::success(
