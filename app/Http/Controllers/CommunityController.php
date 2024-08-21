@@ -6,6 +6,7 @@ use App\Exports\CommunityExport;
 use App\Helpers\JsonResponse;
 use App\Http\Resources\CommunityResource;
 use App\Models\Community;
+use Carbon\Carbon;
 use Exception;
 use Illuminate\Http\Request;
 use Illuminate\Http\Response;
@@ -43,12 +44,17 @@ class CommunityController extends Controller
       DB::beginTransaction();
 
       $data = Community::create([
+        'volunteer_id' => $request->post('volunteer_id'),
         'name' => $request->post('name'),
         'nik' => $request->post('nik'),
         'phone_number' => $request->post('phone_number'),
         'coordinate' => $request->post('coordinate'),
         'description' => $request->post('description'),
         'photo' => $request->post('photo'),
+        'education' => $request->post('education'),
+        'birthdate' => Carbon::parse($request->post('birthdate'))->format('Y-m-d'),
+        'religion' => $request->post('religion'),
+        'sex' => $request->post('sex'),
       ]);
 
       $data->address()->create([

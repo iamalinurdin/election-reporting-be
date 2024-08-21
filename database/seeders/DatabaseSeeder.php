@@ -23,7 +23,7 @@ class DatabaseSeeder extends Seeder
       PostSeeder::class,
       VotingLocationSeeder::class,
       RegistrationSeeder::class,
-      // AboutProgrammeSeeder::class,
+      CommunitySeeder::class,
       // FlagshipProgrammeSeeder::class,
       // RegistrationSeeder::class,
       // PoskoSeeder::class,
