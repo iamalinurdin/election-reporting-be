@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Helpers\JsonResponse;
 use App\Http\Resources\VolunteerResource;
+use App\Models\Address;
 use App\Models\Volunteer;
 use Exception;
 use Illuminate\Http\Request;
@@ -25,6 +26,107 @@ class VolunteerController extends Controller
       $query->whereHas('user', function ($query) use ($request) {
         $query->where('name', 'LIKE', "%{$request->query('name')}%");
       });
+    }
+
+    if ($request->filled('filterType') == 'jumlah-relawan') {
+      $queryCountVolunteers = Address::query()->where('addressable_type', Volunteer::class);
+
+      if ($request->filled('province')) {
+        $queryCountVolunteers
+          ->select('city AS name', DB::raw('count(*) as total'))
+          ->groupBy('city')
+          ->where('province', $request->query('province'));
+
+        $total = $queryCountVolunteers->count();
+        $data = $queryCountVolunteers->get();
+        $value = $data->map(function ($item) {
+          return [
+            'name' => $item->name,
+            'total' => $item->total ?? 0
+          ];
+        });
+
+        return JsonResponse::success(
+          data: VolunteerResource::collection($value),
+          meta: JsonResponse::meta(
+            total: $total,
+            page: $page,
+            limit: $limit
+          )
+        );
+      }
+
+      if ($request->filled('city')) {
+        $queryCountVolunteers
+          ->select('district AS name', DB::raw('count(*) as total'))
+          ->groupBy('district')
+          ->where('city', $request->query('city'));
+
+        $total = $queryCountVolunteers->count();
+        $data = $queryCountVolunteers->get();
+        $value = $data->map(function ($item) {
+          return [
+            'name' => $item->name,
+            'total' => $item->total ?? 0
+          ];
+        });
+
+        return JsonResponse::success(
+          data: VolunteerResource::collection($value),
+          meta: JsonResponse::meta(
+            total: $total,
+            page: $page,
+            limit: $limit
+          )
+        );
+      }
+
+      if ($request->filled('district')) {
+        $queryCountVolunteers
+          ->select('subdistrict AS name', DB::raw('count(*) as total'))
+          ->groupBy('subdistrict')
+          ->where('district', $request->query('district'));
+
+        $total = $queryCountVolunteers->count();
+        $data = $queryCountVolunteers->get();
+        $value = $data->map(function ($item) {
+          return [
+            'name' => $item->name,
+            'total' => $item->total ?? 0
+          ];
+        });
+
+        return JsonResponse::success(
+          data: VolunteerResource::collection($value),
+          meta: JsonResponse::meta(
+            total: $total,
+            page: $page,
+            limit: $limit
+          )
+        );
+      }
+
+      $queryCountVolunteers
+        ->select('province AS name', DB::raw('count(*) as total'))
+        ->groupBy('province');
+
+      $total = $queryCountVolunteers->count();
+      $data = $queryCountVolunteers->get();
+      $value = $data->map(function ($item) {
+        return [
+          'name' => $item->name,
+          'total' => $item->total ?? 0
+        ];
+      });
+
+      return JsonResponse::success(
+        data: VolunteerResource::collection($value),
+        meta: JsonResponse::meta(
+          total: $total,
+          page: $page,
+          limit: $limit
+        )
+      );
     }
 
     if ($request->filled('start_date') && $request->filled('end_date')) {
