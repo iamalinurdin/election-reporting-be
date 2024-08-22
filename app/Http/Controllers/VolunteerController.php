@@ -18,12 +18,43 @@ class VolunteerController extends Controller
   public function index(Request $request)
   {
     $limit = $request->query('limit', 10);
-    $page = $request->query('page', 10);
+    $page = $request->query('page', 1);
     $query = Volunteer::query()->with('address', 'user', 'post', 'votingLocation');
 
     if ($request->filled('name')) {
       $query->whereHas('user', function ($query) use ($request) {
         $query->where('name', 'LIKE', "%{$request->query('name')}%");
+      });
+    }
+
+    if ($request->filled('start_date') && $request->filled('end_date')) {
+      $start = $request->filled('start_date');
+      $end = $request->filled('end_date');
+
+      $query->whereBetween('created_at', [$start, $end]);
+    }
+
+    if ($request->filled('province')) {
+      $query->whereHas('address', function ($query) use ($request) {
+        $query->where('province', $request->query('province'));
+      });
+    }
+
+    if ($request->filled('city')) {
+      $query->whereHas('address', function ($query) use ($request) {
+        $query->where('city', $request->query('city'));
+      });
+    }
+
+    if ($request->filled('district')) {
+      $query->whereHas('address', function ($query) use ($request) {
+        $query->where('district', $request->query('district'));
+      });
+    }
+
+    if ($request->filled('subdistrict')) {
+      $query->whereHas('address', function ($query) use ($request) {
+        $query->where('subdistrict', $request->query('subdistrict'));
       });
     }
 
