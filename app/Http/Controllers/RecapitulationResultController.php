@@ -18,8 +18,34 @@ class RecapitulationResultController extends Controller
   {
     $limit = $request->query('limit', 10);
     $page = $request->query('page', 10);
-    $total = RecapitulationResult::count();
-    $data = RecapitulationResult::paginate($limit);
+    $query = RecapitulationResult::query()->with('votingLocation', 'votingLocation.address', 'participant');
+
+    if ($request->filled('province')) {
+      $query->whereHas('votingLocation.address', function ($query) use ($request) {
+        $query->where('province', $request->query('province'));
+      });
+    }
+
+    if ($request->filled('city')) {
+      $query->whereHas('votingLocation.address', function ($query) use ($request) {
+        $query->where('city', $request->query('city'));
+      });
+    }
+
+    if ($request->filled('district')) {
+      $query->whereHas('votingLocation.address', function ($query) use ($request) {
+        $query->where('district', $request->query('district'));
+      });
+    }
+
+    if ($request->filled('subdistrict')) {
+      $query->whereHas('votingLocation.address', function ($query) use ($request) {
+        $query->where('subdistrict', $request->query('subdistrict'));
+      });
+    }
+
+    $total = $query->count();
+    $data = $query->paginate($limit);
 
     return JsonResponse::success(
       data: RecapitulationResultResource::collection($data),
