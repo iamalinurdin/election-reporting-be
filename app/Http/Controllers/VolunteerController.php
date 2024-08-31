@@ -31,11 +31,11 @@ class VolunteerController extends Controller
     if ($request->filled('filterType') == 'jumlah-relawan') {
       $queryCountVolunteers = Address::query()->where('addressable_type', Volunteer::class);
 
-      if ($request->filled('province')) {
+      if ($request->filled('district')) {
         $queryCountVolunteers
-          ->select('city AS name', DB::raw('count(*) as total'))
-          ->groupBy('city')
-          ->where('province', $request->query('province'));
+          ->select('subdistrict AS name', DB::raw('count(*) as total'))
+          ->groupBy('subdistrict')
+          ->where('district', $request->query('district'));
 
         $total = $queryCountVolunteers->count();
         $data = $queryCountVolunteers->get();
@@ -81,11 +81,11 @@ class VolunteerController extends Controller
         );
       }
 
-      if ($request->filled('district')) {
+      if ($request->filled('province')) {
         $queryCountVolunteers
-          ->select('subdistrict AS name', DB::raw('count(*) as total'))
-          ->groupBy('subdistrict')
-          ->where('district', $request->query('district'));
+          ->select('city AS name', DB::raw('count(*) as total'))
+          ->groupBy('city')
+          ->where('province', $request->query('province'));
 
         $total = $queryCountVolunteers->count();
         $data = $queryCountVolunteers->get();
