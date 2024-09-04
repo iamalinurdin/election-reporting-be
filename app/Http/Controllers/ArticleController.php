@@ -18,9 +18,10 @@ class ArticleController extends Controller
   public function index(Request $request)
   {
     $limit = $request->query('limit', 10);
-    $page = $request->query('page', 10);
-    $total = Article::count();
-    $data = Article::paginate($limit);
+    $page = $request->query('page', 1);
+    $query = Article::query();
+    $total = $query->count();
+    $data = $query->paginate($limit);
 
     return JsonResponse::success(
       data: ArticleResource::collection($data),
@@ -38,19 +39,14 @@ class ArticleController extends Controller
   public function store(Request $request)
   {
     try {
-      $titleId = $request->post('title_id');
-      $titleEn = $request->post('title_en');
+      $title = $request->post('title');
 
       $data = Article::create([
-        'slug_id' => Str::slug($titleId),
-        'slug_en' => Str::slug($titleEn),
-        'title_id' => $titleId,
-        'title_en' => $titleEn,
+        'slug' => Str::slug($title),
+        'title' => $title,
         'image' => $request->post('image'),
-        'description_id' => $request->post('description_id'),
-        'description_en' => $request->post('description_en'),
-        'body_id' => $request->post('body_id'),
-        'body_en' => $request->post('body_en'),
+        'description' => $request->post('description'),
+        'body' => $request->post('body'),
       ]);
 
       return JsonResponse::success(

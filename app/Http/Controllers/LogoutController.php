@@ -13,9 +13,7 @@ class LogoutController extends Controller
    */
   public function __invoke(Request $request)
   {
-    // dd($request->user());
-
-    $request->user()->tokens()->delete();
+    $request->user()->currentAccessToken()->delete();
 
     return JsonResponse::success(
       code: Response::HTTP_OK,

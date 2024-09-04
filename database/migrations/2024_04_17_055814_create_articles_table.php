@@ -14,14 +14,10 @@ return new class extends Migration
     Schema::create('articles', function (Blueprint $table) {
       $table->id();
       $table->string('image');
-      $table->string('slug_id')->unique();
-      $table->string('slug_en')->unique();
-      $table->string('title_id');
-      $table->string('title_en');
-      $table->text('description_id');
-      $table->text('description_en');
-      $table->text('body_id');
-      $table->text('body_en');
+      $table->string('slug')->unique();
+      $table->string('title');
+      $table->text('description');
+      $table->text('body');
       $table->integer('total_read')->default(0);
       $table->enum('status', ['active', 'deactive', 'draft'])->default('active');
       $table->timestamps();
