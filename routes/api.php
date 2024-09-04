@@ -39,6 +39,10 @@ Route::get('/user', function (Request $request) {
   return $request->user();
 })->middleware('auth:sanctum');
 
+Route::middleware('auth:sanctum')->group(function () {
+  Route::apiResource('election-voters', ElectionVoterController::class);
+});
+
 Route::post('login', LoginController::class);
 Route::post('logout', LogoutController::class)->middleware('auth:sanctum');
 Route::post('file', MediaController::class);
@@ -67,7 +71,6 @@ Route::apiResource('configurations', ConfigurationController::class);
 Route::apiResource('voting-locations', VotingLocationController::class);
 Route::apiResource('posts', PostController::class);
 Route::apiResource('volunteers', VolunteerController::class);
-Route::apiResource('election-voters', ElectionVoterController::class);
 Route::apiResource('communities', CommunityController::class);
 Route::apiResource('recapitulation-results', RecapitulationResultController::class);
 Route::apiResource('election-participants', ElectionParticipantController::class);

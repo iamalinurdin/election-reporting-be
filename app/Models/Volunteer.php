@@ -5,6 +5,7 @@ namespace App\Models;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
+use Illuminate\Database\Eloquent\Relations\HasMany;
 use Illuminate\Database\Eloquent\Relations\MorphOne;
 use Kra8\Snowflake\HasSnowflakePrimary;
 
@@ -66,5 +67,15 @@ class Volunteer extends Model
   public function votingLocation(): BelongsTo
   {
     return $this->belongsTo(VotingLocation::class);
+  }
+
+  /**
+   * Get all of the voters for the Volunteer
+   *
+   * @return \Illuminate\Database\Eloquent\Relations\HasMany
+   */
+  public function voters(): HasMany
+  {
+    return $this->hasMany(ElectionVoter::class);
   }
 }

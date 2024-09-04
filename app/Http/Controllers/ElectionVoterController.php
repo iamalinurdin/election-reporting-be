@@ -10,6 +10,7 @@ use Exception;
 use Illuminate\Http\Request;
 use Illuminate\Http\Response;
 use Illuminate\Support\Facades\DB;
+use phpDocumentor\Reflection\Types\Void_;
 
 class ElectionVoterController extends Controller
 {
@@ -18,6 +19,18 @@ class ElectionVoterController extends Controller
    */
   public function index(Request $request)
   {
+    $user = $request->user();
+
+    if ($user->role == 'volunteer') {
+      $volunteer = Volunteer::query()->whereHas('user', function ($query) use ($user) {
+        $query->where('user_id', $user->id);
+      })->with('voters')->first();
+
+      return JsonResponse::success(
+        data: ElectionVoterResource::collection($volunteer->voters)
+      );
+    }
+
     $limit = $request->query('limit', 10);
     $page = $request->query('page', 10);
     $query = ElectionVoter::query()->with('address');
@@ -74,11 +87,17 @@ class ElectionVoterController extends Controller
   {
     try {
       DB::beginTransaction();
-      $volunteerId = $request->post('volunteer_id');
-      $volunteer = Volunteer::find($volunteerId);
+
+      $user = $request->user();
+
+      if ($user->role == 'volunteer') {
+        $volunteer = Volunteer::query()->whereHas('user', function ($query) use ($user) {
+          $query->where('user_id', $user->id);
+        })->first();
+      }
 
       $data = ElectionVoter::create([
-        'volunteer_id' => $volunteerId,
+        'volunteer_id' => $user->role == 'volunteer' ? $volunteer->id : $request->post('volunteer_id'),
         'voting_location_id' => $request->post('voting_location_id'),
         'name' => $request->post('name'),
         'nik' => $request->post('nik'),
@@ -96,9 +115,9 @@ class ElectionVoterController extends Controller
         'province' => $request->post('province'),
       ]);
 
-      $volunteer->update([
-        'points' => $volunteer->points += 1
-      ]);
+      // $volunteer->update([
+      //   'points' => $volunteer->points += 1
+      // ]);
 
       DB::commit();
 
