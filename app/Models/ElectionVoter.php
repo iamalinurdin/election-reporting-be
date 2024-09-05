@@ -30,6 +30,15 @@ class ElectionVoter extends Model
   ];
 
   /**
+   * Undocumented variable
+   *
+   * @var array
+   */
+  protected $casts = [
+    'id' => 'string',
+  ];
+
+  /**
    * Get the volunteer that owns the ElectionVoter
    *
    * @return \Illuminate\Database\Eloquent\Relations\BelongsTo

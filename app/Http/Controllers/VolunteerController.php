@@ -20,7 +20,7 @@ class VolunteerController extends Controller
   {
     $limit = $request->query('limit', 10);
     $page = $request->query('page', 1);
-    $query = Volunteer::query()->with('address', 'user', 'post', 'votingLocation');
+    $query = Volunteer::query()->with('address', 'user', 'post', 'votingLocation', 'party', 'organization');
 
     if ($request->filled('name')) {
       $query->whereHas('user', function ($query) use ($request) {

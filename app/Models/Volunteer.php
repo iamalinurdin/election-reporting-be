@@ -78,4 +78,24 @@ class Volunteer extends Model
   {
     return $this->hasMany(ElectionVoter::class);
   }
+
+  /**
+   * Get the party that owns the Volunteer
+   *
+   * @return \Illuminate\Database\Eloquent\Relations\BelongsTo
+   */
+  public function party(): BelongsTo
+  {
+    return $this->belongsTo(Party::class);
+  }
+
+  /**
+   * Get the organization that owns the Volunteer
+   *
+   * @return \Illuminate\Database\Eloquent\Relations\BelongsTo
+   */
+  public function organization(): BelongsTo
+  {
+    return $this->belongsTo(Organization::class);
+  }
 }
