@@ -20,6 +20,16 @@ class ElectionVoter extends Model
   protected $guarded = [];
 
   /**
+   * Undocumented variable
+   *
+   * @var array
+   */
+  protected $appends = [
+    'latitude',
+    'longitude'
+  ];
+
+  /**
    * Get the volunteer that owns the ElectionVoter
    *
    * @return \Illuminate\Database\Eloquent\Relations\BelongsTo
@@ -37,5 +47,29 @@ class ElectionVoter extends Model
   public function address(): MorphOne
   {
     return $this->morphOne(Address::class, 'addressable');
+  }
+
+  /**
+   * Undocumented function
+   *
+   * @return void
+   */
+  public function getLatitudeAttribute()
+  {
+    $coordinate = explode(', ', $this->coordinate);
+
+    return (float) $coordinate[0];
+  }
+
+  /**
+   * Undocumented function
+   *
+   * @return void
+   */
+  public function getLongitudeAttribute()
+  {
+    $coordinate = explode(', ', $this->coordinate);
+
+    return (float) $coordinate[1];
   }
 }

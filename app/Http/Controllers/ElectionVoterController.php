@@ -25,9 +25,10 @@ class ElectionVoterController extends Controller
       $volunteer = Volunteer::query()->whereHas('user', function ($query) use ($user) {
         $query->where('user_id', $user->id);
       })->with('voters')->first();
+      $query = $volunteer->voters()->with('address');
 
       return JsonResponse::success(
-        data: ElectionVoterResource::collection($volunteer->voters)
+        data: ElectionVoterResource::collection($query->get())
       );
     }
 
