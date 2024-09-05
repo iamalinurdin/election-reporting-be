@@ -27,6 +27,8 @@ use App\Http\Controllers\CommunityController;
 use App\Http\Controllers\ConfigurationController;
 use App\Http\Controllers\ElectionParticipantController;
 use App\Http\Controllers\ElectionVoterController;
+use App\Http\Controllers\OrganizationController;
+use App\Http\Controllers\PartyController;
 use App\Http\Controllers\PostController;
 use App\Http\Controllers\PublicFigureController;
 use App\Http\Controllers\RecapitulationResultController;
@@ -75,6 +77,8 @@ Route::apiResource('communities', CommunityController::class);
 Route::apiResource('recapitulation-results', RecapitulationResultController::class);
 Route::apiResource('election-participants', ElectionParticipantController::class);
 Route::apiResource('public-figures', PublicFigureController::class);
+Route::apiResource('parties', PartyController::class);
+Route::apiResource('organizations', OrganizationController::class);
 
 // Route::apiResource('posko', PoskoController::class);
 // Route::prefix('posko')->group(function () {
