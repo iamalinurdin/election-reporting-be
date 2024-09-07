@@ -106,6 +106,7 @@ class ElectionVoterController extends Controller
         'sex' => $request->post('sex'),
         'coordinate' => $request->post('coordinate'),
         'evidence' => $request->post('evidence'),
+        'voter_type' => $request->post('voter_type'),
       ]);
 
       $data->address()->create([
