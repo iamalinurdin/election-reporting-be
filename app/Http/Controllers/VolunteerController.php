@@ -259,4 +259,18 @@ class VolunteerController extends Controller
       );
     }
   }
+
+  /**
+   * Undocumented function
+   *
+   * @param Request $request
+   * @return void
+   */
+  public function achievements(Request $request)
+  {
+    $user = $request->user();
+    $voters = $user->voters()->count();
+
+    dd($voters);
+  }
 }

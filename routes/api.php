@@ -27,6 +27,7 @@ use App\Http\Controllers\CommunityController;
 use App\Http\Controllers\ConfigurationController;
 use App\Http\Controllers\ElectionParticipantController;
 use App\Http\Controllers\ElectionVoterController;
+use App\Http\Controllers\NotificationController;
 use App\Http\Controllers\OrganizationController;
 use App\Http\Controllers\PartyController;
 use App\Http\Controllers\PostController;
@@ -43,6 +44,8 @@ Route::get('/user', function (Request $request) {
 
 Route::middleware('auth:sanctum')->group(function () {
   Route::apiResource('election-voters', ElectionVoterController::class);
+  Route::get('notifications', [NotificationController::class, 'index']);
+  Route::get('achievements', [VolunteerController::class, 'achievements']);
 });
 
 Route::post('login', LoginController::class);
