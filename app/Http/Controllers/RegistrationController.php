@@ -191,7 +191,7 @@ class RegistrationController extends Controller
           'password' => Hash::make($data->email),
         ]);
 
-        $user->assignRole('volunteer');
+        $user->assignRole($request->post('role'));
 
         $volunteer = Volunteer::create([
           'voting_location_id' => $request->post('voting_location_id'),

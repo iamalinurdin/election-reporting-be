@@ -17,7 +17,10 @@ class RolePermissionSeeder extends Seeder
     $roles = [
       'super-admin',
       'admin',
-      'volunteer'
+      'volunteer',
+      'head-coordinator',
+      'district-coordinator',
+      'subdistrict-coordinator'
     ];
 
     $permissions = [
