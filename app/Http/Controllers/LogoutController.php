@@ -8,17 +8,17 @@ use Illuminate\Http\Response;
 
 class LogoutController extends Controller
 {
-  /**
-   * Handle the incoming request.
-   */
-  public function __invoke(Request $request)
-  {
-    $request->user()->currentAccessToken()->delete();
+    /**
+     * Handle the incoming request.
+     */
+    public function __invoke(Request $request)
+    {
+        $request->user()->currentAccessToken()->delete();
 
-    return JsonResponse::success(
-      code: Response::HTTP_OK,
-      message: 'ok',
-      data: null
-    );
-  }
+        return JsonResponse::success(
+            code: Response::HTTP_OK,
+            message: 'ok',
+            data: null,
+        );
+    }
 }

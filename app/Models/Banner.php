@@ -2,10 +2,10 @@
 
 namespace App\Models;
 
+use App\Traits\FilterSortTrait;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Kra8\Snowflake\HasSnowflakePrimary;
-use App\Traits\FilterSortTrait;
 
 class Banner extends Model
 {
@@ -17,12 +17,12 @@ class Banner extends Model
     protected $primaryKey = 'id';
     protected $casts      = [
       'id' => 'string',
-  ];
+    ];
 
     protected $fillable = [
         'photo',
         'title',
         'description',
-        'link'
+        'link',
     ];
 }

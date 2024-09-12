@@ -2,10 +2,10 @@
 
 namespace Database\Factories;
 
-use Illuminate\Database\Eloquent\Factories\Factory;
-use Illuminate\Support\Str;
 use App\Models\Posko;
 use App\Models\Tps;
+use Illuminate\Database\Eloquent\Factories\Factory;
+
 /**
  * @extends \Illuminate\Database\Eloquent\Factories\Factory<\App\Models\Relawan>
  */
@@ -18,17 +18,17 @@ class RelawanFactory extends Factory
      */
     public function definition(): array
     {
-      $fakerId = fake('id_ID');
-      $titleId = $fakerId->words(5, true);
+        $fakerId = fake('id_ID');
+        $titleId = $fakerId->words(5, true);
 
-      return [
-        'id_posko' => Posko::factory(),
-        'id_tps'  => Tps::factory(),
-        'nama' => $titleId,
-        'alamat' => $titleId,
-        'no_handphone' =>"+628570000000",
-        'count_pemilih' => 0,
-        'star' => 0,
-      ];
+        return [
+          'id_posko'      => Posko::factory(),
+          'id_tps'        => Tps::factory(),
+          'nama'          => $titleId,
+          'alamat'        => $titleId,
+          'no_handphone'  => "+628570000000",
+          'count_pemilih' => 0,
+          'star'          => 0,
+        ];
     }
 }

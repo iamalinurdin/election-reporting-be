@@ -9,19 +9,19 @@ use Illuminate\Database\Eloquent\Factories\Factory;
  */
 class AboutProgrammeFactory extends Factory
 {
-  /**
-   * Define the model's default state.
-   *
-   * @return array<string, mixed>
-   */
-  public function definition(): array
-  {
-    $fakerId = fake('id_ID');
-    $fakerEn = fake('en_GB');
+    /**
+     * Define the model's default state.
+     *
+     * @return array<string, mixed>
+     */
+    public function definition(): array
+    {
+        $fakerId = fake('id_ID');
+        $fakerEn = fake('en_GB');
 
-    return [
-      'text_id' => $fakerId->words(5, true),
-      'text_en' => $fakerEn->words(5, true),
-    ];
-  }
+        return [
+          'text_id' => $fakerId->words(5, true),
+          'text_en' => $fakerEn->words(5, true),
+        ];
+    }
 }

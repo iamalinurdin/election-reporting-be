@@ -9,31 +9,32 @@ use Kra8\Snowflake\HasSnowflakePrimary;
 
 class Organization extends Model
 {
-  use HasFactory, HasSnowflakePrimary;
+    use HasFactory;
+    use HasSnowflakePrimary;
 
-  /**
-   * Undocumented variable
-   *
-   * @var array
-   */
-  protected $guarded = [];
+    /**
+     * Undocumented variable.
+     *
+     * @var array
+     */
+    protected $guarded = [];
 
-  /**
-   * Undocumented variable
-   *
-   * @var array
-   */
-  protected $casts = [
-    'id' => 'string',
-  ];
+    /**
+     * Undocumented variable.
+     *
+     * @var array
+     */
+    protected $casts = [
+      'id' => 'string',
+    ];
 
-  /**
-   * Get all of the volunteers for the Party
-   *
-   * @return \Illuminate\Database\Eloquent\Relations\HasMany
-   */
-  public function volunteers(): HasMany
-  {
-    return $this->hasMany(Volunteer::class);
-  }
+    /**
+     * Get all of the volunteers for the Party.
+     *
+     * @return \Illuminate\Database\Eloquent\Relations\HasMany
+     */
+    public function volunteers(): HasMany
+    {
+        return $this->hasMany(Volunteer::class);
+    }
 }

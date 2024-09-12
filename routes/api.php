@@ -3,46 +3,46 @@
 use App\Http\Controllers\AboutController;
 use App\Http\Controllers\AboutProgrammeController;
 use App\Http\Controllers\ArticleController;
+use App\Http\Controllers\CommunityController;
+use App\Http\Controllers\ConfigurationController;
+use App\Http\Controllers\DaftarPemilihController;
+use App\Http\Controllers\ElectionParticipantController;
+use App\Http\Controllers\ElectionVoterController;
 use App\Http\Controllers\FlagshipProgrammeController;
 use App\Http\Controllers\GalleryController;
 use App\Http\Controllers\LoginController;
 use App\Http\Controllers\LogoutController;
 use App\Http\Controllers\MediaController;
 use App\Http\Controllers\MissionController;
-use App\Http\Controllers\PermissionController;
-use App\Http\Controllers\RegistrationController;
-use App\Http\Controllers\RoleController;
-use App\Http\Controllers\TestimonyController;
-use App\Http\Controllers\UserController;
 // use App\Http\Controllers\PoskoController;
-// use App\Http\Controllers\RelawanController;
+use App\Http\Controllers\OrganizationController;
 // use App\Http\Controllers\TokohController;
 // use App\Http\Controllers\TpsController;
 // use App\Http\Controllers\BannerController;
-// use App\Http\Controllers\DaftarPemilihController;
+use App\Http\Controllers\PartyController;
 // use App\Http\Controllers\BroadcastingNotifikasiController;
 // use App\Http\Controllers\CalonController;
 // use App\Http\Controllers\SuaraController;
-use App\Http\Controllers\CommunityController;
-use App\Http\Controllers\ConfigurationController;
-use App\Http\Controllers\ElectionParticipantController;
-use App\Http\Controllers\ElectionVoterController;
-use App\Http\Controllers\OrganizationController;
-use App\Http\Controllers\PartyController;
+use App\Http\Controllers\PermissionController;
 use App\Http\Controllers\PostController;
 use App\Http\Controllers\PublicFigureController;
 use App\Http\Controllers\RecapitulationResultController;
+use App\Http\Controllers\RegistrationController;
+use App\Http\Controllers\RelawanController;
+use App\Http\Controllers\RoleController;
+use App\Http\Controllers\TestimonyController;
+use App\Http\Controllers\UserController;
 use App\Http\Controllers\VolunteerController;
 use App\Http\Controllers\VotingLocationController;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
 
 Route::get('/user', function (Request $request) {
-  return $request->user();
+    return $request->user();
 })->middleware('auth:sanctum');
 
 Route::middleware('auth:sanctum')->group(function () {
-  Route::apiResource('election-voters', ElectionVoterController::class);
+    Route::apiResource('election-voters', ElectionVoterController::class);
 });
 
 Route::post('login', LoginController::class);
@@ -88,12 +88,17 @@ Route::apiResource('organizations', OrganizationController::class);
 // });
 
 // Route::apiResource('relawan', RelawanController::class);
-// Route::prefix('relawan')->group(function () {
-//   Route::post('register-akun', [RelawanController::class, 'registerRelawan']);
-//   Route::post('store', [RelawanController::class, 'store']);
-//   Route::post('update/{id}', [RelawanController::class, 'update']);
-//   Route::get('destroy/{id}', [RelawanController::class, 'destroy']);
-// });
+Route::prefix('relawan')->group(function () {
+    // Route::post('register-akun', [RelawanController::class, 'registerRelawan']);
+    // Route::post('store', [RelawanController::class, 'store']);
+    // Route::post('update/{id}', [RelawanController::class, 'update']);
+    // Route::get('destroy/{id}', [RelawanController::class, 'destroy']);
+    Route::get('export', [RelawanController::class, 'export']);
+});
+
+Route::prefix('daftar-pemilih')->group(function () {
+    Route::get('export', [DaftarPemilihController::class, 'export']);
+});
 
 // Route::apiResource('tokoh', TokohController::class);
 // Route::prefix('tokoh')->group(function () {

@@ -2,71 +2,75 @@
 
 namespace App\Http\Controllers;
 
-use Illuminate\Http\Request;
+use App\Http\Requests\TokohRequest;
 use App\Models\Tokoh;
 use App\Traits\ApiResponseTrait;
 use Exception;
-use App\Http\Requests\TokohRequest;
+use Illuminate\Http\Request;
 
 class TokohController extends Controller
 {
     //
     use ApiResponseTrait;
-    public function index(Request $request){
-      $limit = $request->query('limit', 10);
 
-      $results = Tokoh::filterSort($request);
+    public function index(Request $request)
+    {
+        $limit = $request->query('limit', 10);
 
-      $results = $results->paginate($limit)->appends([
-          'limit' => $limit,
-      ]);
+        $results = Tokoh::filterSort($request);
 
-      return $this->successResponse($results);
+        $results = $results->paginate($limit)->appends([
+            'limit' => $limit,
+        ]);
+
+        return $this->successResponse($results);
     }
 
-    public function store(TokohRequest $request){
-      try{
-        $validatedData = $request->validated();
+    public function store(TokohRequest $request)
+    {
+        try {
+            $validatedData = $request->validated();
 
-        $result = Tokoh::create($validatedData);
+            $result = Tokoh::create($validatedData);
 
-        return $this->createdResponse($result);
-      }catch(Exception $e){
-          return $this->badRequestResponse($e->getMessage());
-      }
+            return $this->createdResponse($result);
+        } catch (Exception $e) {
+            return $this->badRequestResponse($e->getMessage());
+        }
     }
 
-    public function show(string $id){
-      $result = Tokoh::where('id', $id)->first();
+    public function show(string $id)
+    {
+        $result = Tokoh::where('id', $id)->first();
 
-      if (!empty($result)) {
-        return $this->successResponse($result);
-      }else{
-        return $this->notFoundResponse();
-      }
+        if (!empty($result)) {
+            return $this->successResponse($result);
+        } else {
+            return $this->notFoundResponse();
+        }
     }
 
-    public function update(TokohRequest $request, string $id){
-      try{
-        $validatedData = $request->validated();
+    public function update(TokohRequest $request, string $id)
+    {
+        try {
+            $validatedData = $request->validated();
 
-        $result = Tokoh::where('id',$id)->update($validatedData);
+            $result = Tokoh::where('id', $id)->update($validatedData);
 
-        return $this->createdResponse($result);
-      }catch(Exception $e){
-          return $this->badRequestResponse($e->getMessage());
-      }
+            return $this->createdResponse($result);
+        } catch (Exception $e) {
+            return $this->badRequestResponse($e->getMessage());
+        }
     }
 
     public function destroy(string $id)
     {
-      try{
+        try {
+            Tokoh::where('id', $id)->delete();
 
-        Tokoh::where('id',$id)->delete();
-
-        return $this->successResponse();
-      }catch(Exception $e){
-          return $this->badRequestResponse($e->getMessage());
-      }
+            return $this->successResponse();
+        } catch (Exception $e) {
+            return $this->badRequestResponse($e->getMessage());
+        }
     }
 }

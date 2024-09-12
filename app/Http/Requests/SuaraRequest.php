@@ -22,8 +22,8 @@ class SuaraRequest extends FormRequest
     public function rules(): array
     {
         return [
-            'id_calon' => 'required|numeric',
-            'id_tps' => 'required|numeric',
+            'id_calon'        => 'required|numeric',
+            'id_tps'          => 'required|numeric',
             'total_perolehan' => 'required|numeric',
         ];
     }

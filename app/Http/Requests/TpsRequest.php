@@ -23,10 +23,10 @@ class TpsRequest extends FormRequest
     {
         return [
             //
-            'nama_tps' => 'required|string',
-            'alamat'     => 'required|string',
-            'kordinat'         => 'required|string',
-            'penanggungjawab'      => 'required|string',
+            'nama_tps'        => 'required|string',
+            'alamat'          => 'required|string',
+            'kordinat'        => 'required|string',
+            'penanggungjawab' => 'required|string',
         ];
     }
 }

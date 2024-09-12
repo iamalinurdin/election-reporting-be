@@ -10,75 +10,76 @@ use Kra8\Snowflake\HasSnowflakePrimary;
 
 class ElectionVoter extends Model
 {
-  use HasFactory, HasSnowflakePrimary;
+    use HasFactory;
+    use HasSnowflakePrimary;
 
-  /**
-   * Undocumented variable
-   *
-   * @var array
-   */
-  protected $guarded = [];
+    /**
+     * Undocumented variable.
+     *
+     * @var array
+     */
+    protected $guarded = [];
 
-  /**
-   * Undocumented variable
-   *
-   * @var array
-   */
-  protected $appends = [
-    'latitude',
-    'longitude'
-  ];
+    /**
+     * Undocumented variable.
+     *
+     * @var array
+     */
+    protected $appends = [
+      'latitude',
+      'longitude',
+    ];
 
-  /**
-   * Undocumented variable
-   *
-   * @var array
-   */
-  protected $casts = [
-    'id' => 'string',
-  ];
+    /**
+     * Undocumented variable.
+     *
+     * @var array
+     */
+    protected $casts = [
+      'id' => 'string',
+    ];
 
-  /**
-   * Get the volunteer that owns the ElectionVoter
-   *
-   * @return \Illuminate\Database\Eloquent\Relations\BelongsTo
-   */
-  public function volunteer(): BelongsTo
-  {
-    return $this->belongsTo(Volunteer::class);
-  }
+    /**
+     * Get the volunteer that owns the ElectionVoter.
+     *
+     * @return \Illuminate\Database\Eloquent\Relations\BelongsTo
+     */
+    public function volunteer(): BelongsTo
+    {
+        return $this->belongsTo(Volunteer::class);
+    }
 
-  /**
-   * Undocumented function
-   *
-   * @return MorphOne
-   */
-  public function address(): MorphOne
-  {
-    return $this->morphOne(Address::class, 'addressable');
-  }
+    /**
+     * Undocumented function.
+     *
+     * @return MorphOne
+     */
+    public function address(): MorphOne
+    {
+        return $this->morphOne(Address::class, 'addressable');
+    }
 
-  /**
-   * Undocumented function
-   *
-   * @return void
-   */
-  public function getLatitudeAttribute()
-  {
-    $coordinate = explode(', ', $this->coordinate);
+    /**
+     * Undocumented function.
+     *
+     * @return void
+     */
+    public function getLatitudeAttribute()
+    {
+        $coordinate = explode(', ', $this->coordinate);
 
-    return (float) $coordinate[0];
-  }
+        return (float) $coordinate[0];
+    }
 
-  /**
-   * Undocumented function
-   *
-   * @return void
-   */
-  public function getLongitudeAttribute()
-  {
-    $coordinate = explode(', ', $this->coordinate);
+    /**
+     * Undocumented function.
+     *
+     * @return void
+     */
+    public function getLongitudeAttribute()
+    {
+        $coordinate = explode(', ', $this->coordinate);
 
-    return (float) $coordinate[1];
-  }
+        return (float) $coordinate[1];
+    }
 }

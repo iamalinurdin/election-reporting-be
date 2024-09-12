@@ -9,19 +9,19 @@ use Illuminate\Database\Eloquent\Factories\Factory;
  */
 class AddressFactory extends Factory
 {
-  /**
-   * Define the model's default state.
-   *
-   * @return array<string, mixed>
-   */
-  public function definition(): array
-  {
-    return [
-      'address' => fake()->address(),
-      'subdistrict' => 'subdistrict',
-      'district' => 'district',
-      'city' => 'city',
-      'province' => 'province',
-    ];
-  }
+    /**
+     * Define the model's default state.
+     *
+     * @return array<string, mixed>
+     */
+    public function definition(): array
+    {
+        return [
+          'address'     => fake()->address(),
+          'subdistrict' => 'subdistrict',
+          'district'    => 'district',
+          'city'        => 'city',
+          'province'    => 'province',
+        ];
+    }
 }

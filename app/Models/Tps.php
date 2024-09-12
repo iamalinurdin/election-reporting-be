@@ -2,10 +2,10 @@
 
 namespace App\Models;
 
+use App\Traits\FilterSortTrait;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Kra8\Snowflake\HasSnowflakePrimary;
-use App\Traits\FilterSortTrait;
 
 class Tps extends Model
 {
@@ -22,17 +22,19 @@ class Tps extends Model
         'nama_tps',
         'alamat',
         'kordinat',
-        'penanggungjawab'
+        'penanggungjawab',
     ];
     protected $hidden = [
         'deleted_at',
     ];
 
-    public function relawan(){
-      return $this->hasMany(Relawan::class, 'id_tps', 'id');
+    public function relawan()
+    {
+        return $this->hasMany(Relawan::class, 'id_tps', 'id');
     }
 
-    public function suaras(){
-      return $this->hasMany(Suara::class, 'id_tps', 'id');
+    public function suaras()
+    {
+        return $this->hasMany(Suara::class, 'id_tps', 'id');
     }
 }

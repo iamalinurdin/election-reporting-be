@@ -21,13 +21,13 @@ class CalonRequest extends FormRequest
      */
     public function rules(): array
     {
-      return [
-        //
-        'no_urut' => 'required|string',
-        'nama_calon' =>  'required|string',
-        'nama_wakil_calon' => 'required|string',
-        'foto_calon' => 'mimes:jpeg,png,jpg,webp',
-        'foto_wakil_calon' => 'mimes:jpeg,png,jpg,webp'
-      ];
+        return [
+          //
+          'no_urut'          => 'required|string',
+          'nama_calon'       => 'required|string',
+          'nama_wakil_calon' => 'required|string',
+          'foto_calon'       => 'mimes:jpeg,png,jpg,webp',
+          'foto_wakil_calon' => 'mimes:jpeg,png,jpg,webp',
+        ];
     }
 }

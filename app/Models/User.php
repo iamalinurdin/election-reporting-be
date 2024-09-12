@@ -12,75 +12,80 @@ use Spatie\Permission\Traits\HasRoles;
 
 class User extends Authenticatable
 {
-  use HasFactory, Notifiable, HasRoles, HasApiTokens, Notifiable, HasSnowflakePrimary;
+    use HasFactory;
+    use Notifiable;
+    use HasRoles;
+    use HasApiTokens;
+    use Notifiable;
+    use HasSnowflakePrimary;
 
-  /**
-   * The attributes that are mass assignable.
-   *
-   * @var array<int, string>
-   */
-  protected $fillable = [
-    'name',
-    'email',
-    'password',
-    'roles'
-  ];
-
-  /**
-   * Undocumented variable
-   *
-   * @var array
-   */
-  protected $casts = [
-    'id' => 'string',
-  ];
-
-  /**
-   * The attributes that should be hidden for serialization.
-   *
-   * @var array<int, string>
-   */
-  protected $hidden = [
-    'password',
-    'remember_token',
-  ];
-
-  /**
-   * Undocumented variable
-   *
-   * @var string
-   */
-  protected $guard_name = 'web';
-
-  /**
-   * Get the attributes that should be cast.
-   *
-   * @return array<string, string>
-   */
-  protected function casts(): array
-  {
-    return [
-      'email_verified_at' => 'datetime',
-      'password' => 'hashed',
+    /**
+     * The attributes that are mass assignable.
+     *
+     * @var array<int, string>
+     */
+    protected $fillable = [
+      'name',
+      'email',
+      'password',
+      'roles',
     ];
-  }
 
-  /**
-   * Undocumented variable
-   *
-   * @var array
-   */
-  protected $appends = [
-    'role'
-  ];
+    /**
+     * Undocumented variable.
+     *
+     * @var array
+     */
+    protected $casts = [
+      'id' => 'string',
+    ];
 
-  /**
-   * Undocumented function
-   *
-   * @return string
-   */
-  public function getRoleAttribute(): string
-  {
-    return $this->roles[0]->name;
-  }
+    /**
+     * The attributes that should be hidden for serialization.
+     *
+     * @var array<int, string>
+     */
+    protected $hidden = [
+      'password',
+      'remember_token',
+    ];
+
+    /**
+     * Undocumented variable.
+     *
+     * @var string
+     */
+    protected $guard_name = 'web';
+
+    /**
+     * Get the attributes that should be cast.
+     *
+     * @return array<string, string>
+     */
+    protected function casts(): array
+    {
+        return [
+          'email_verified_at' => 'datetime',
+          'password'          => 'hashed',
+        ];
+    }
+
+    /**
+     * Undocumented variable.
+     *
+     * @var array
+     */
+    protected $appends = [
+      'role',
+    ];
+
+    /**
+     * Undocumented function.
+     *
+     * @return string
+     */
+    public function getRoleAttribute(): string
+    {
+        return $this->roles[0]->name;
+    }
 }

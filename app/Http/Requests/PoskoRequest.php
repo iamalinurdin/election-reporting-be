@@ -22,10 +22,10 @@ class PoskoRequest extends FormRequest
     public function rules(): array
     {
         return [
-            'alamat' => 'required|string',
-            'kordinat'     => 'required|string',
-            'penanggungjawab'         => 'required|string',
-            'no_handphone'      => 'required|string',
+            'alamat'          => 'required|string',
+            'kordinat'        => 'required|string',
+            'penanggungjawab' => 'required|string',
+            'no_handphone'    => 'required|string',
         ];
     }
 }

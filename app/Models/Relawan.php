@@ -2,10 +2,10 @@
 
 namespace App\Models;
 
+use App\Traits\FilterSortTrait;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Kra8\Snowflake\HasSnowflakePrimary;
-use App\Traits\FilterSortTrait;
 
 class Relawan extends Model
 {
@@ -16,8 +16,8 @@ class Relawan extends Model
     protected $table      = 'relawan';
     protected $primaryKey = 'id';
     protected $casts      = [
-        'id' => 'string',
-        'id_user' => 'string',
+        'id'       => 'string',
+        'id_user'  => 'string',
         'id_posko' => 'string',
     ];
     protected $fillable = [
@@ -28,21 +28,24 @@ class Relawan extends Model
         'alamat',
         'no_handphone',
         'count_pemilih',
-        'star'
+        'star',
     ];
     protected $hidden = [
         'deleted_at',
     ];
 
-    public function posko(){
-      return $this->belongsTo(Posko::class, 'id_posko', 'id');
+    public function posko()
+    {
+        return $this->belongsTo(Posko::class, 'id_posko', 'id');
     }
 
-    public function tps(){
-      return $this->belongsTo(Tps::class, 'id_tps', 'id');
+    public function tps()
+    {
+        return $this->belongsTo(Tps::class, 'id_tps', 'id');
     }
 
-    public function daftarPemilih(){
-      return $this->hasMany(DaftarPemilih::class, 'id_relawan', 'id');
+    public function daftarPemilih()
+    {
+        return $this->hasMany(DaftarPemilih::class, 'id_relawan', 'id');
     }
 }

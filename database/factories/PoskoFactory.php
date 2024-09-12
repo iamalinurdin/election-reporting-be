@@ -17,14 +17,14 @@ class PoskoFactory extends Factory
      */
     public function definition(): array
     {
-      $fakerId = fake('id_ID');
-      $titleId = $fakerId->words(5, true);
+        $fakerId = fake('id_ID');
+        $titleId = $fakerId->words(5, true);
 
-      return [
-        'alamat' => $titleId,
-        'kordinat' => '-6.193125,106.821810',
-        'penanggungjawab' => Str::slug($titleId),
-        'no_handphone' => "+628570000000",
-      ];
+        return [
+          'alamat'          => $titleId,
+          'kordinat'        => '-6.193125,106.821810',
+          'penanggungjawab' => Str::slug($titleId),
+          'no_handphone'    => "+628570000000",
+        ];
     }
 }

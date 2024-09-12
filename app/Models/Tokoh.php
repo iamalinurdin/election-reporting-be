@@ -2,10 +2,10 @@
 
 namespace App\Models;
 
+use App\Traits\FilterSortTrait;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Kra8\Snowflake\HasSnowflakePrimary;
-use App\Traits\FilterSortTrait;
 
 class Tokoh extends Model
 {
@@ -22,7 +22,7 @@ class Tokoh extends Model
         'nama',
         'alamat',
         'no_handphone',
-        'kategori'
+        'kategori',
     ];
     protected $hidden = [
         'deleted_at',

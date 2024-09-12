@@ -23,10 +23,10 @@ class BannerRequest extends FormRequest
     {
         return [
             //
-            'photo' => 'mimes:jpeg,png,jpg,webp',
-            'title' =>  'required|string',
+            'photo'       => 'mimes:jpeg,png,jpg,webp',
+            'title'       => 'required|string',
             'description' => 'required|string',
-            'link' => 'nullable|string'
+            'link'        => 'nullable|string',
         ];
     }
 }

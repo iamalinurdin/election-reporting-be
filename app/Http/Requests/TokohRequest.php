@@ -24,9 +24,9 @@ class TokohRequest extends FormRequest
         return [
             //
             'nama'         => 'required|string',
-            'alamat'      => 'required|string',
-            'no_handphone'      => 'required|string',
-            'kategori' => 'required|string'
+            'alamat'       => 'required|string',
+            'no_handphone' => 'required|string',
+            'kategori'     => 'required|string',
         ];
     }
 }

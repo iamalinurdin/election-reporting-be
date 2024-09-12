@@ -9,7 +9,7 @@ use Illuminate\Support\Str;
 trait FilterSortTrait
 {
     //
-     /**
+    /**
      * Apply filters and sorting to a query builder instance.
      *
      * @param Builder $query

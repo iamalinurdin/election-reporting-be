@@ -11,72 +11,73 @@ use Illuminate\Http\Response;
 
 class ElectionParticipantController extends Controller
 {
-  /**
-   * Display a listing of the resource.
-   */
-  public function index(Request $request)
-  {
-    $limit = $request->query('limit', 10);
-    $page = $request->query('page', 10);
-    $total = ElectionParticipant::count();
-    $data = ElectionParticipant::with('recapitulationResults', 'recapitulationResults.votingLocation')->paginate($limit);
+    /**
+     * Display a listing of the resource.
+     */
+    public function index(Request $request)
+    {
+        $limit = $request->query('limit', 10);
+        $page  = $request->query('page', 10);
+        $total = ElectionParticipant::count();
+        $data  = ElectionParticipant::with('recapitulationResults', 'recapitulationResults.votingLocation')->paginate($limit);
 
-    return JsonResponse::success(
-      data: ElectionParticipantResource::collection($data),
-      meta: JsonResponse::meta(
-        total: $total,
-        page: $page,
-        limit: $limit
-      )
-    );
-  }
-  /**
-   * Store a newly created resource in storage.
-   */
-  public function store(Request $request)
-  {
-    try {
-      $data = ElectionParticipant::create([
-        'election_number' => $request->post('election_number'),
-        'election_type' => $request->post('election_type'),
-        'participant_name' => $request->post('participant_name'),
-        'vice_participant_name' => $request->post('vice_participant_name'),
-        'participant_photo' => $request->post('participant_photo'),
-        'vice_participant_photo' => $request->post('vice_participant_photo'),
-      ]);
-
-      return JsonResponse::success(
-        code: Response::HTTP_CREATED,
-        data: new ElectionParticipantResource($data)
-      );
-    } catch (Exception $exception) {
-      return JsonResponse::error(
-        message: $exception->getMessage()
-      );
+        return JsonResponse::success(
+            data: ElectionParticipantResource::collection($data),
+            meta: JsonResponse::meta(
+                total: $total,
+                page: $page,
+                limit: $limit,
+            ),
+        );
     }
-  }
 
-  /**
-   * Display the specified resource.
-   */
-  public function show(string $id)
-  {
-    //
-  }
+    /**
+     * Store a newly created resource in storage.
+     */
+    public function store(Request $request)
+    {
+        try {
+            $data = ElectionParticipant::create([
+              'election_number'        => $request->post('election_number'),
+              'election_type'          => $request->post('election_type'),
+              'participant_name'       => $request->post('participant_name'),
+              'vice_participant_name'  => $request->post('vice_participant_name'),
+              'participant_photo'      => $request->post('participant_photo'),
+              'vice_participant_photo' => $request->post('vice_participant_photo'),
+            ]);
 
-  /**
-   * Update the specified resource in storage.
-   */
-  public function update(Request $request, string $id)
-  {
-    //
-  }
+            return JsonResponse::success(
+                code: Response::HTTP_CREATED,
+                data: new ElectionParticipantResource($data),
+            );
+        } catch (Exception $exception) {
+            return JsonResponse::error(
+                message: $exception->getMessage(),
+            );
+        }
+    }
 
-  /**
-   * Remove the specified resource from storage.
-   */
-  public function destroy(string $id)
-  {
-    //
-  }
+    /**
+     * Display the specified resource.
+     */
+    public function show(string $id)
+    {
+        //
+    }
+
+    /**
+     * Update the specified resource in storage.
+     */
+    public function update(Request $request, string $id)
+    {
+        //
+    }
+
+    /**
+     * Remove the specified resource from storage.
+     */
+    public function destroy(string $id)
+    {
+        //
+    }
 }

@@ -7,12 +7,12 @@ use Illuminate\Database\Eloquent\Model;
 
 class About extends Model
 {
-  use HasFactory;
+    use HasFactory;
 
-  /**
-   * Undocumented variable
-   *
-   * @var array
-   */
-  protected $guarded = [];
+    /**
+     * Undocumented variable.
+     *
+     * @var array
+     */
+    protected $guarded = [];
 }

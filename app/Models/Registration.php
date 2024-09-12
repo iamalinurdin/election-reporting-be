@@ -9,31 +9,32 @@ use Kra8\Snowflake\HasSnowflakePrimary;
 
 class Registration extends Model
 {
-  use HasFactory, HasSnowflakePrimary;
+    use HasFactory;
+    use HasSnowflakePrimary;
 
-  /**
-   * Undocumented variable
-   *
-   * @var array
-   */
-  protected $guarded = [];
+    /**
+     * Undocumented variable.
+     *
+     * @var array
+     */
+    protected $guarded = [];
 
-  /**
-   * Undocumented variable
-   *
-   * @var array
-   */
-  protected $casts = [
-    'id' => 'string',
-  ];
+    /**
+     * Undocumented variable.
+     *
+     * @var array
+     */
+    protected $casts = [
+      'id' => 'string',
+    ];
 
-  /**
-   * Undocumented function
-   *
-   * @return MorphOne
-   */
-  public function address(): MorphOne
-  {
-    return $this->morphOne(Address::class, 'addressable');
-  }
+    /**
+     * Undocumented function.
+     *
+     * @return MorphOne
+     */
+    public function address(): MorphOne
+    {
+        return $this->morphOne(Address::class, 'addressable');
+    }
 }

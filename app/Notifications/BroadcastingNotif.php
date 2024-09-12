@@ -3,7 +3,6 @@
 namespace App\Notifications;
 
 use Illuminate\Bus\Queueable;
-use Illuminate\Contracts\Queue\ShouldQueue;
 use Illuminate\Notifications\Messages\MailMessage;
 use Illuminate\Notifications\Notification;
 
@@ -15,10 +14,11 @@ class BroadcastingNotif extends Notification
      * Create a new notification instance.
      */
     protected $message;
+
     public function __construct($message)
     {
         //
-        $this->message=$message;
+        $this->message = $message;
     }
 
     /**
@@ -36,7 +36,7 @@ class BroadcastingNotif extends Notification
      */
     public function toMail(object $notifiable): MailMessage
     {
-        return (new MailMessage)
+        return (new MailMessage())
                     ->line('The introduction to the notification.')
                     ->action('Notification Action', url('/'))
                     ->line('Thank you for using our application!');
@@ -49,9 +49,9 @@ class BroadcastingNotif extends Notification
      */
     public function toArray(object $notifiable): array
     {
-      return [
-        'title' => $this->message->title,
-        'description' => $this->message->description
-      ];
+        return [
+          'title'       => $this->message->title,
+          'description' => $this->message->description,
+        ];
     }
 }

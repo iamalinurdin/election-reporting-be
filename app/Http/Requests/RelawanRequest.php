@@ -23,11 +23,11 @@ class RelawanRequest extends FormRequest
     {
         return [
             //
-            'id_posko' => 'required|numeric',
-            'id_tps' => 'required|numeric',
+            'id_posko'     => 'required|numeric',
+            'id_tps'       => 'required|numeric',
             'nama'         => 'required|string',
-            'alamat'      => 'required|string',
-            'no_handphone'      => 'required|string',
+            'alamat'       => 'required|string',
+            'no_handphone' => 'required|string',
         ];
     }
 }

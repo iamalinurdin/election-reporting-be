@@ -2,9 +2,9 @@
 
 namespace App\Models;
 
+use App\Traits\FilterSortTrait;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
-use App\Traits\FilterSortTrait;
 use Kra8\Snowflake\HasSnowflakePrimary;
 
 class DaftarPemilih extends Model
@@ -16,8 +16,8 @@ class DaftarPemilih extends Model
     protected $table      = 'daftar_pemiih';
     protected $primaryKey = 'id';
     protected $casts      = [
-        'id' => 'string',
-        'id_relawan' => 'string'
+        'id'         => 'string',
+        'id_relawan' => 'string',
     ];
     protected $fillable = [
         'id_relawan',
@@ -25,13 +25,14 @@ class DaftarPemilih extends Model
         'nik',
         'alamat',
         'kordinat',
-        'photo'
+        'photo',
     ];
     protected $hidden = [
         'deleted_at',
     ];
 
-    public function relawan(){
-      return $this->belongsTo(Relawan::class, 'id_relawan', 'id');
+    public function relawan()
+    {
+        return $this->belongsTo(Relawan::class, 'id_relawan', 'id');
     }
 }

@@ -3,7 +3,7 @@
 namespace Database\Factories;
 
 use Illuminate\Database\Eloquent\Factories\Factory;
-use Illuminate\Support\Str;
+
 /**
  * @extends \Illuminate\Database\Eloquent\Factories\Factory<\App\Models\Tokoh>
  */
@@ -18,10 +18,11 @@ class TokohFactory extends Factory
     {
         $fakerId = fake('id_ID');
         $titleId = $fakerId->words(5, true);
+
         return [
-          'nama' => $titleId,
-          'alamat' => $titleId,
-          'no_handphone' =>"+628570000000",
+          'nama'         => $titleId,
+          'alamat'       => $titleId,
+          'no_handphone' => "+628570000000",
         ];
     }
 }

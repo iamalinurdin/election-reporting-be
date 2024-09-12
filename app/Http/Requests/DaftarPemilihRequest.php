@@ -21,13 +21,13 @@ class DaftarPemilihRequest extends FormRequest
      */
     public function rules(): array
     {
-      return [
-        'id_relawan' => 'numeric',
-        'nama_pemilih' => 'required|string',
-        'nik' => 'required|string',
-        'alamat' => 'required|string',
-        'kordinat'     => 'required|string',
-        'photo' => 'mimes:jpeg,png,jpg,webp',
-    ];
+        return [
+          'id_relawan'   => 'numeric',
+          'nama_pemilih' => 'required|string',
+          'nik'          => 'required|string',
+          'alamat'       => 'required|string',
+          'kordinat'     => 'required|string',
+          'photo'        => 'mimes:jpeg,png,jpg,webp',
+        ];
     }
 }

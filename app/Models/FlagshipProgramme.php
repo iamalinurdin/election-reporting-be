@@ -7,7 +7,7 @@ use Illuminate\Database\Eloquent\Model;
 
 class FlagshipProgramme extends Model
 {
-  use HasFactory;
+    use HasFactory;
 
-  protected $guarded = [];
+    protected $guarded = [];
 }

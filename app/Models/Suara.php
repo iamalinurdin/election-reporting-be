@@ -5,18 +5,18 @@ namespace App\Models;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Kra8\Snowflake\HasSnowflakePrimary;
-use App\Traits\FilterSortTrait;
 
 class Suara extends Model
 {
     use HasFactory;
     use HasSnowflakePrimary;
+
     protected $table      = 'suara';
     protected $primaryKey = 'id';
     protected $casts      = [
-      'id' => 'string',
+      'id'       => 'string',
       'id_calon' => 'string',
-      'id_tps' => 'string'
+      'id_tps'   => 'string',
     ];
 
     protected $fillable = [
@@ -25,11 +25,13 @@ class Suara extends Model
         'total_perolehan',
     ];
 
-    public function calon(){
+    public function calon()
+    {
         return $this->belongsTo(Calon::class, 'id_calon', 'id');
     }
 
-    public function tps(){
+    public function tps()
+    {
         return $this->belongsTo(Tps::class, 'id_tps', 'id');
     }
 }

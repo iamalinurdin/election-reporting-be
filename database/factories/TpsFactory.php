@@ -4,6 +4,7 @@ namespace Database\Factories;
 
 use Illuminate\Database\Eloquent\Factories\Factory;
 use Illuminate\Support\Str;
+
 /**
  * @extends \Illuminate\Database\Eloquent\Factories\Factory<\App\Models\Tps>
  */
@@ -16,14 +17,14 @@ class TpsFactory extends Factory
      */
     public function definition(): array
     {
-      $fakerId = fake('id_ID');
-      $titleId = $fakerId->words(5, true);
+        $fakerId = fake('id_ID');
+        $titleId = $fakerId->words(5, true);
 
-      return [
-        'nama_tps' => $titleId,
-        'alamat' => $titleId,
-        'kordinat' => '-6.193125,106.821810',
-        'penanggungjawab' => Str::slug($titleId),
-      ];
+        return [
+          'nama_tps'        => $titleId,
+          'alamat'          => $titleId,
+          'kordinat'        => '-6.193125,106.821810',
+          'penanggungjawab' => Str::slug($titleId),
+        ];
     }
 }
