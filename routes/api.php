@@ -60,6 +60,8 @@ Route::get('abouts/latest', [AboutController::class, 'latest']);
 Route::put('registrations/approval', [RegistrationController::class, 'approval']);
 Route::get('communities/export', [CommunityController::class, 'export']);
 Route::put('users/toggle-status', [UserController::class, 'toggleStatus']);
+Route::get('recapitulation-results/summary', [RecapitulationResultController::class, 'summary']);
+
 
 Route::apiResource('abouts', AboutController::class);
 Route::apiResource('articles', ArticleController::class);

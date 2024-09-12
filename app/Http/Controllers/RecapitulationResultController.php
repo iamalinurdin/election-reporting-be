@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Helpers\JsonResponse;
 use App\Http\Resources\RecapitulationResultResource;
+use App\Models\ElectionParticipant;
 use App\Models\RecapitulationResult;
 use Exception;
 use Illuminate\Http\Request;
@@ -121,5 +122,47 @@ class RecapitulationResultController extends Controller
   public function destroy(string $id)
   {
     //
+  }
+
+  /**
+   * Undocumented function
+   *
+   * @param Request $request
+   * @return void
+   */
+  public function summary(Request $request)
+  {
+    $participants = ElectionParticipant::with('recapitulationResults')->get();
+    if ($request->query('type') == 'overall-recapitulations') {
+      $total = collect($participants->map(function ($participant) {
+        return $participant->recapitulationResults->map(function ($item) {
+          return $item->vote_counts;
+        });
+      }))->map(function ($item) {
+        $v = $item->reduce(function ($carry, $val) {
+          return $carry + $val;
+        });
+
+        return $v;
+      })->sum();
+      $data = $participants->map(function ($participant) use ($total) {
+        $results = $participant->recapitulationResults->reduce(function ($carry, $result) {
+          return $carry + $result->vote_counts;
+        });
+        $description = "{$participant->election_number} - {$participant->participant_name} & $participant->vice_participant_name";
+
+        return [
+          'id' => $participant->id,
+          'election_number' => $participant->election_number,
+          'description' => $description,
+          'in_percent' => (float) number_format(($results / $total) * 100, 2) / 100,
+          'in_total' => $results
+        ];
+      });
+
+      return JsonResponse::success(
+        data: $data
+      );
+    }
   }
 }
