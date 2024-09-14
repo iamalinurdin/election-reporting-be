@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\Helpers\JsonResponse;
 use App\Http\Resources\VolunteerResource;
 use App\Models\Address;
+use App\Models\User;
 use App\Models\Volunteer;
 use Exception;
 use Illuminate\Http\Request;
@@ -179,7 +180,50 @@ class VolunteerController extends Controller
    */
   public function store(Request $request)
   {
-    //
+    try {
+      DB::beginTransaction();
+
+      $email = $request->post('email');
+      $user = User::create([
+        'name' => $request->post('name'),
+        'email' => $email,
+        'password' => Hash::make($email),
+      ]);
+
+      $user->assignRole($request->post('role'));
+
+      $volunteer = Volunteer::create([
+        'user_id' => $user->id,
+        'party_id' => $request->post('party_id'),
+        'organization_id' => $request->post('organization_id'),
+        'voting_location_id' => $request->post('voting_location_id'),
+        'post_id' => $request->post('post_id'),
+        'nik' => $request->post('nik'),
+        'phone_number' => $request->post('phone_number'),
+        'coordinate' => $request->post('coordinate'),
+        'points' => 0
+      ]);
+
+      $volunteer->address()->create([
+        'address' => $request->post('address'),
+        'subdistrict' => $request->post('subdistrict'),
+        'district' => $request->post('district'),
+        'city' => $request->post('city'),
+        'province' => $request->post('province'),
+      ]);
+
+      DB::commit();
+
+      return JsonResponse::success(
+        code: Response::HTTP_CREATED
+      );
+    } catch (Exception $exception) {
+      DB::rollBack();
+
+      return JsonResponse::error(
+        message: $exception->getMessage()
+      );
+    }
   }
 
   /**
