@@ -31,6 +31,7 @@ use App\Http\Controllers\ElectionVoterController;
 use App\Http\Controllers\NotificationController;
 use App\Http\Controllers\OrganizationController;
 use App\Http\Controllers\PartyController;
+use App\Http\Controllers\PasswordController;
 use App\Http\Controllers\PostController;
 use App\Http\Controllers\PublicFigureController;
 use App\Http\Controllers\RecapitulationResultController;
@@ -54,6 +55,8 @@ Route::middleware('auth:sanctum')->group(function () {
 Route::post('login', LoginController::class);
 Route::post('logout', LogoutController::class)->middleware('auth:sanctum');
 Route::post('file', MediaController::class);
+Route::post('password/forgot', [PasswordController::class, 'sendResetLink']);
+Route::post('password/reset', [PasswordController::class, 'resetPassword']);
 Route::put('testimonies/{id}/toggle-status', [TestimonyController::class, 'toggleStatus']);
 Route::put('missions/{id}/toggle-status', [MissionController::class, 'toggleStatus']);
 Route::put('about-programmes/{id}/toggle-status', [AboutProgrammeController::class, 'toggleStatus']);
