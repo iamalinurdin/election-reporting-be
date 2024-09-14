@@ -3,6 +3,7 @@
 use App\Http\Controllers\AboutController;
 use App\Http\Controllers\AboutProgrammeController;
 use App\Http\Controllers\ArticleController;
+use App\Http\Controllers\ChangePasswordController;
 use App\Http\Controllers\FlagshipProgrammeController;
 use App\Http\Controllers\GalleryController;
 use App\Http\Controllers\LoginController;
@@ -45,6 +46,7 @@ Route::get('/user', function (Request $request) {
 Route::middleware('auth:sanctum')->group(function () {
   Route::get('notifications', [NotificationController::class, 'index']);
   Route::get('achievements', [VolunteerController::class, 'achievements']);
+  Route::patch('change-password', ChangePasswordController::class);
 
   Route::apiResource('election-voters', ElectionVoterController::class);
 });
