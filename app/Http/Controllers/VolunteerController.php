@@ -10,6 +10,7 @@ use Exception;
 use Illuminate\Http\Request;
 use Illuminate\Http\Response;
 use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Facades\Hash;
 
 class VolunteerController extends Controller
 {
@@ -266,11 +267,144 @@ class VolunteerController extends Controller
    * @param Request $request
    * @return void
    */
-  public function achievements(Request $request)
+  public function summary(Request $request)
   {
-    $user = $request->user();
-    $voters = $user->voters()->count();
+    if ($request->query('filterType') == 'jumlah-relawan') {
+      $query = Address::query()->where('addressable_type', Volunteer::class);
+      if ($request->filled('district')) {
+        $query
+          ->select('subdistrict AS name', DB::raw('count(*) as total'))
+          ->groupBy('subdistrict')
+          ->where('district', $request->query('district'));
 
-    dd($voters);
+        $total = $query->count();
+        $data = $query->get();
+        $value = $data->map(function ($item) {
+          return [
+            'name' => $item->name,
+            'total' => $item->total ?? 0
+          ];
+        });
+
+        return JsonResponse::success(
+          data: VolunteerResource::collection($value),
+        );
+      }
+
+      if ($request->filled('city')) {
+        $query
+          ->select('district AS name', DB::raw('count(*) as total'))
+          ->groupBy('district')
+          ->where('city', $request->query('city'));
+
+        $total = $query->count();
+        $data = $query->get();
+        $value = $data->map(function ($item) {
+          return [
+            'name' => $item->name,
+            'total' => $item->total ?? 0
+          ];
+        });
+
+        return JsonResponse::success(
+          data: VolunteerResource::collection($value),
+        );
+      }
+    }
+
+    if ($request->query('filterType') == 'kinerja-relawan') {
+      $query = Volunteer::query()->with('address', 'user', 'post', 'votingLocation', 'party', 'organization');
+
+      if ($request->filled('subdistrict')) {
+        $value = $query->whereHas('address', function ($query) use ($request) {
+          $city = $request->query('city');
+          $district = $request->query('district');
+          $subdistrict = $request->query('subdistrict');
+
+          $query->where('city', $city)
+            ->where('district', $district)
+            ->where('subdistrict', $subdistrict);
+        })->get()->map(function ($item) {
+          return [
+            'id' => $item->id,
+            'name' => $item->user->name,
+            'voters_count' => $item->voters->count()
+          ];
+        });
+
+        return JsonResponse::success(
+          data: VolunteerResource::collection($value)
+        );
+      }
+
+      if ($request->filled('district')) {
+        $value = $query->whereHas('address', function ($query) use ($request) {
+          $query->where('city', $request->query('city'))->where('district', $request->query('district'));
+        })->get()->map(function ($item) {
+          return [
+            'id' => $item->id,
+            'name' => $item->user->name,
+            'voters_count' => $item->voters->count()
+          ];
+        });
+
+        return JsonResponse::success(
+          data: VolunteerResource::collection($value)
+        );
+      }
+
+      if ($request->filled('city')) {
+        $value = $query->whereHas('address', function ($query) use ($request) {
+          $query->where('city', $request->query('city'));
+        })->get()->map(function ($item) {
+          return [
+            'id' => $item->id,
+            'name' => $item->user->name,
+            'voters_count' => $item->voters->count()
+          ];
+        });
+
+        return JsonResponse::success(
+          data: VolunteerResource::collection($value)
+        );
+      }
+
+      if ($request->filled('province')) {
+        $query
+          ->select('city AS name', DB::raw('count(*) as total'))
+          ->groupBy('city')
+          ->where('province', $request->query('province'));
+
+        $total = $query->count();
+        $data = $query->get();
+        $value = $data->map(function ($item) {
+          return [
+            'name' => $item->name,
+            'total' => $item->total ?? 0
+          ];
+        });
+
+        return JsonResponse::success(
+          data: VolunteerResource::collection($value),
+        );
+      }
+
+      $query
+        ->select('province AS name', DB::raw('count(*) as total'))
+        ->groupBy('province');
+
+      $total = $query->count();
+      $data = $query->get();
+      $value = $data->map(function ($item) {
+        return [
+          'name' => $item->name,
+          'total' => $item->total ?? 0
+        ];
+      });
+
+      return JsonResponse::success(
+        data: VolunteerResource::collection($value),
+      );
+    }
   }
 }

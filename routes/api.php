@@ -43,9 +43,10 @@ Route::get('/user', function (Request $request) {
 })->middleware('auth:sanctum');
 
 Route::middleware('auth:sanctum')->group(function () {
-  Route::apiResource('election-voters', ElectionVoterController::class);
   Route::get('notifications', [NotificationController::class, 'index']);
   Route::get('achievements', [VolunteerController::class, 'achievements']);
+
+  Route::apiResource('election-voters', ElectionVoterController::class);
 });
 
 Route::post('login', LoginController::class);
@@ -61,7 +62,7 @@ Route::put('registrations/approval', [RegistrationController::class, 'approval']
 Route::get('communities/export', [CommunityController::class, 'export']);
 Route::put('users/toggle-status', [UserController::class, 'toggleStatus']);
 Route::get('recapitulation-results/summary', [RecapitulationResultController::class, 'summary']);
-
+Route::get('volunteers/summary', [VolunteerController::class, 'summary']);
 
 Route::apiResource('abouts', AboutController::class);
 Route::apiResource('articles', ArticleController::class);
