@@ -24,7 +24,7 @@ class VolunteerController extends Controller
   {
     $limit = $request->query('limit', 10);
     $page = $request->query('page', 1);
-    $query = Volunteer::query()->with('address', 'user', 'post', 'votingLocation', 'party', 'organization');
+    $query = Volunteer::query()->with('address', 'user', 'post', 'votingLocation', 'party', 'organization', 'addedBy');
 
     if ($request->filled('name')) {
       $query->whereHas('user', function ($query) use ($request) {
@@ -186,6 +186,7 @@ class VolunteerController extends Controller
       DB::beginTransaction();
 
       $email = $request->post('email');
+      $addedBy = $request->user();
       $user = User::create([
         'name' => $request->post('name'),
         'email' => $email,
@@ -195,6 +196,7 @@ class VolunteerController extends Controller
       $user->assignRole($request->post('role'));
 
       $volunteer = Volunteer::create([
+        'added_by' => $addedBy->id,
         'user_id' => $user->id,
         'party_id' => $request->post('party_id'),
         'organization_id' => $request->post('organization_id'),

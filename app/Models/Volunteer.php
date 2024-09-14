@@ -50,6 +50,16 @@ class Volunteer extends Model
   }
 
   /**
+   * Get the addedBy that owns the Volunteer
+   *
+   * @return \Illuminate\Database\Eloquent\Relations\BelongsTo
+   */
+  public function addedBy(): BelongsTo
+  {
+    return $this->belongsTo(User::class, 'added_by');
+  }
+
+  /**
    * Get the post that owns the Volunteer
    *
    * @return \Illuminate\Database\Eloquent\Relations\BelongsTo
