@@ -66,6 +66,8 @@ Route::get('configurations/latest', [ConfigurationController::class, 'latest']);
 Route::get('abouts/latest', [AboutController::class, 'latest']);
 Route::put('registrations/approval', [RegistrationController::class, 'approval']);
 Route::get('communities/export', [CommunityController::class, 'export']);
+Route::get('volunteers/export', [VolunteerController::class, 'export']);
+Route::get('voters/export', [ElectionVoterController::class, 'export']);
 Route::put('users/toggle-status', [UserController::class, 'toggleStatus']);
 Route::get('recapitulation-results/summary', [RecapitulationResultController::class, 'summary']);
 Route::get('volunteers/summary', [VolunteerController::class, 'summary']);

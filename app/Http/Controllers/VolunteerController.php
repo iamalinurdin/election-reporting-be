@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Exports\VolunteerExport;
 use App\Helpers\JsonResponse;
 use App\Http\Resources\VolunteerResource;
 use App\Models\Address;
@@ -12,6 +13,7 @@ use Illuminate\Http\Request;
 use Illuminate\Http\Response;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Hash;
+use Maatwebsite\Excel\Facades\Excel;
 
 class VolunteerController extends Controller
 {
@@ -450,5 +452,15 @@ class VolunteerController extends Controller
         data: VolunteerResource::collection($value),
       );
     }
+  }
+
+  /**
+   * Undocumented function
+   *
+   * @return void
+   */
+  public function export()
+  {
+    return Excel::download(new VolunteerExport, 'volunteers.xlsx');
   }
 }

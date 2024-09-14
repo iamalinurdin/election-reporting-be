@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Exports\VoterExport;
 use App\Helpers\JsonResponse;
 use App\Http\Resources\ElectionVoterResource;
 use App\Models\ElectionVoter;
@@ -10,6 +11,7 @@ use Exception;
 use Illuminate\Http\Request;
 use Illuminate\Http\Response;
 use Illuminate\Support\Facades\DB;
+use Maatwebsite\Excel\Facades\Excel;
 use phpDocumentor\Reflection\Types\Void_;
 
 class ElectionVoterController extends Controller
@@ -182,5 +184,15 @@ class ElectionVoterController extends Controller
         message: $exception->getMessage()
       );
     }
+  }
+
+  /**
+   * Undocumented function
+   *
+   * @return void
+   */
+  public function export()
+  {
+    return Excel::download(new VoterExport, 'voters.xlsx');
   }
 }

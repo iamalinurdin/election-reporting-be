@@ -59,6 +59,16 @@ class ElectionVoter extends Model
   }
 
   /**
+   * Get the votingLocation that owns the ElectionVoter
+   *
+   * @return \Illuminate\Database\Eloquent\Relations\BelongsTo
+   */
+  public function votingLocation(): BelongsTo
+  {
+    return $this->belongsTo(VotingLocation::class);
+  }
+
+  /**
    * Undocumented function
    *
    * @return void
