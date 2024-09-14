@@ -20,20 +20,27 @@ class ElectionVoterController extends Controller
   public function index(Request $request)
   {
     $user = $request->user();
+    $limit = $request->query('limit', 10);
+    $page = $request->query('page', 1);
 
     if ($user->role == 'volunteer') {
       $volunteer = Volunteer::query()->whereHas('user', function ($query) use ($user) {
         $query->where('user_id', $user->id);
       })->with('voters')->first();
       $query = $volunteer->voters()->with('address');
+      $total = $query->count();
+      $data = $query->paginate($limit);
 
       return JsonResponse::success(
-        data: ElectionVoterResource::collection($query->get())
+        data: ElectionVoterResource::collection($data),
+        meta: JsonResponse::meta(
+          total: $total,
+          page: $page,
+          limit: $limit
+        )
       );
     }
 
-    $limit = $request->query('limit', 10);
-    $page = $request->query('page', 10);
     $query = ElectionVoter::query()->with('address');
 
     if ($request->filled('sex')) {

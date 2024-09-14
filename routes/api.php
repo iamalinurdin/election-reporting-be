@@ -50,6 +50,7 @@ Route::middleware('auth:sanctum')->group(function () {
   Route::patch('change-password', ChangePasswordController::class);
 
   Route::apiResource('election-voters', ElectionVoterController::class);
+  Route::apiResource('notifications', NotificationController::class);
 });
 
 Route::post('login', LoginController::class);

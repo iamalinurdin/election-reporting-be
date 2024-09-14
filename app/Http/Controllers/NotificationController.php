@@ -11,7 +11,15 @@ class NotificationController extends Controller
   /**
    * Display a listing of the resource.
    */
-  public function index(Request $request) {}
+  public function index(Request $request)
+  {
+    $user = $request->user();
+    $notifications = $user->notifications;
+
+    return JsonResponse::success(
+      data: NotificationResource::collection($notifications)
+    );
+  }
 
   /**
    * Store a newly created resource in storage.
