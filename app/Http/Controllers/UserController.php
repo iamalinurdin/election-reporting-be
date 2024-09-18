@@ -19,7 +19,7 @@ class UserController extends Controller
   public function index(Request $request)
   {
     $limit = $request->query('limit', 10);
-    $page = $request->query('page', 10);
+    $page = $request->query('page', 1);
     $query = User::query()->with('roles');
     $total = $query->count();
     $data = $query->paginate($limit);

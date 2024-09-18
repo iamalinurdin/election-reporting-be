@@ -44,16 +44,6 @@ Route::get('/user', function (Request $request) {
   return $request->user();
 })->middleware('auth:sanctum');
 
-Route::middleware('auth:sanctum')->group(function () {
-  Route::get('notifications', [NotificationController::class, 'index']);
-  Route::get('achievements', [VolunteerController::class, 'achievements']);
-  Route::patch('change-password', ChangePasswordController::class);
-
-  Route::apiResource('election-voters', ElectionVoterController::class);
-  Route::apiResource('notifications', NotificationController::class);
-  Route::apiResource('volunteers', VolunteerController::class);
-});
-
 Route::post('login', LoginController::class);
 Route::post('logout', LogoutController::class)->middleware('auth:sanctum');
 Route::post('file', MediaController::class);
@@ -72,6 +62,16 @@ Route::get('voters/export', [ElectionVoterController::class, 'export']);
 Route::put('users/toggle-status', [UserController::class, 'toggleStatus']);
 Route::get('recapitulation-results/summary', [RecapitulationResultController::class, 'summary']);
 Route::get('volunteers/summary', [VolunteerController::class, 'summary']);
+
+Route::middleware('auth:sanctum')->group(function () {
+  Route::get('notifications', [NotificationController::class, 'index']);
+  Route::get('achievements', [VolunteerController::class, 'achievements']);
+  Route::patch('change-password', ChangePasswordController::class);
+
+  Route::apiResource('election-voters', ElectionVoterController::class);
+  Route::apiResource('notifications', NotificationController::class);
+  Route::apiResource('volunteers', VolunteerController::class);
+});
 
 Route::apiResource('abouts', AboutController::class);
 Route::apiResource('articles', ArticleController::class);
