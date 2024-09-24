@@ -77,6 +77,22 @@ class ElectionParticipantController extends Controller
    */
   public function destroy(string $id)
   {
-    //
+    try {
+      $participant = ElectionParticipant::find($id);
+
+      $participant->recapitulationResults()->delete();
+      $participant->delete();
+
+      return JsonResponse::success(
+        code: Response::HTTP_OK,
+        message: 'ok',
+        data: null
+      );
+    } catch (Exception $exception) {
+      return JsonResponse::error(
+        code: Response::HTTP_INTERNAL_SERVER_ERROR,
+        message: $exception->getMessage()
+      );
+    }
   }
 }
