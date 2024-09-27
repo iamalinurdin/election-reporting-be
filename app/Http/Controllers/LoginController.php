@@ -26,7 +26,7 @@ class LoginController extends Controller
       $user = User::where('email', $email)->firstOrFail();
 
       if (
-        (($user->role == 'volunteer' || $user->role == 'head-coordinator' || $user->role == 'district-coordinator' || $user->role == 'subdistrict-coordinator') && $platform == 'mobile') ||
+        (($user->role == 'volunteer' || $user->role == 'head-coordinator' || $user->role == 'district-coordinator' || $user->role == 'subdistrict-coordinator' || $user->role == 'rw-coordinator' || $user->role == 'rt-coordinator') && $platform == 'mobile') ||
         (($user->role == 'admin' || $user->role == 'super-admin') && $platform == 'dashboard')
       ) {
         $checkPassword = Hash::check($password, $user->password);

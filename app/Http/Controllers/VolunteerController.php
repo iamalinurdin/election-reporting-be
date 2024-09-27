@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\Exports\VolunteerExport;
 use App\Helpers\JsonResponse;
 use App\Http\Resources\VolunteerResource;
+use App\Imports\VolunteerImport;
 use App\Models\Address;
 use App\Models\User;
 use App\Models\Volunteer;
@@ -464,5 +465,20 @@ class VolunteerController extends Controller
   public function export()
   {
     return Excel::download(new VolunteerExport, 'volunteers.xlsx');
+  }
+
+  /**
+   * Undocumented function
+   *
+   * @param Request $request
+   * @return void
+   */
+  public function import(Request $request)
+  {
+    $file = $request->file('file');
+
+    Excel::import(new VolunteerImport, $file);
+
+    return JsonResponse::success();
   }
 }
