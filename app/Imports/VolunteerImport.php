@@ -66,6 +66,8 @@ class VolunteerImport implements ToModel, WithHeadingRow, SkipsEmptyRows, SkipsO
         'district' => $row['kecamatan'],
         'city' => "Kota Kediri",
         'province' => "Jawa Timur",
+        'rw' => $row['rw'],
+        'rt' => $row['rt'],
       ]);
 
       return $volunteer;
