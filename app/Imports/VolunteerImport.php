@@ -43,7 +43,7 @@ class VolunteerImport implements ToModel, WithHeadingRow, SkipsEmptyRows, SkipsO
         'phone_number' => $row['no_telepon'],
         'party_id' => '-', // $row['partai'],
         'organization_id' => '-', // $row['organisasi'],
-        'coordinate' => '-',
+        'coordinate' => '-7.817332517610728, 112.0124719413919',
       ]);
 
       // $volunteer = new Volunteer([
