@@ -319,65 +319,86 @@ class VolunteerController extends Controller
   public function summary(Request $request)
   {
     if ($request->query('filterType') == 'jumlah-relawan') {
-      $query = Address::query()->where('addressable_type', Volunteer::class);
-      if ($request->filled('district')) {
-        $query
-          ->select('subdistrict AS name', DB::raw('count(*) as total'))
-          ->groupBy('subdistrict')
-          ->where('district', $request->query('district'));
-
-        $total = $query->count();
-        $data = $query->get();
-        $value = $data->map(function ($item) {
-          return [
-            'name' => $item->name,
-            'total' => $item->total ?? 0
-          ];
-        });
-
-        return JsonResponse::success(
-          data: VolunteerResource::collection($value),
-        );
-      }
-
-      if ($request->filled('city')) {
-        $query
-          ->select('district AS name', DB::raw('count(*) as total'))
-          ->groupBy('district')
-          ->where('city', $request->query('city'));
-
-        $total = $query->count();
-        $data = $query->get();
-        $value = $data->map(function ($item) {
-          return [
-            'name' => $item->name,
-            'total' => $item->total ?? 0
-          ];
-        });
-
-        return JsonResponse::success(
-          data: VolunteerResource::collection($value),
-        );
-      }
-    }
-
-    if ($request->query('filterType') == 'kinerja-relawan') {
       $query = Volunteer::query()->with('address', 'user', 'post', 'votingLocation', 'party', 'organization');
+      // $query = Address::query()->where('addressable_type', Volunteer::class);
+      // if ($request->filled('district')) {
+      //   $query
+      //     ->select('subdistrict AS name', DB::raw('count(*) as total'))
+      //     ->groupBy('subdistrict')
+      //     ->where('district', $request->query('district'));
 
-      if ($request->filled('subdistrict')) {
+      //   $total = $query->count();
+      //   $data = $query->get();
+      //   $value = $data->map(function ($item) {
+      //     return [
+      //       'name' => $item->name,
+      //       'total' => $item->total ?? 0
+      //     ];
+      //   });
+
+      //   return JsonResponse::success(
+      //     data: VolunteerResource::collection($value),
+      //   );
+      // }
+
+      if ($request->filled('rt')) {
         $value = $query->whereHas('address', function ($query) use ($request) {
-          $city = $request->query('city');
-          $district = $request->query('district');
-          $subdistrict = $request->query('subdistrict');
-
-          $query->where('city', $city)
-            ->where('district', $district)
-            ->where('subdistrict', $subdistrict);
+          $query->where('city', $request->query('city'))
+            ->where('district', $request->query('district'))
+            ->where('subdistrict', $request->query('subdistrict'))
+            ->where('rw', $request->query('rw'))
+            ->where('rt', $request->query('rt'));
         })->get()->map(function ($item) {
+
+
           return [
             'id' => $item->id,
             'name' => $item->user->name,
-            'voters_count' => $item->voters->count()
+            'address' => $item->address->full_address,
+            'post' => $item->post ? $item->post->name : '-'
+          ];
+        });
+
+        return JsonResponse::success(
+          data: VolunteerResource::collection($value)
+        );
+      }
+
+      if ($request->filled('rw')) {
+        $value = $query->whereHas('address', function ($query) use ($request) {
+          $query->where('city', $request->query('city'))
+            ->where('district', $request->query('district'))
+            ->where('subdistrict', $request->query('subdistrict'))
+            ->where('rw', $request->query('rw'));
+        })->get()->map(function ($item) {
+
+
+          return [
+            'id' => $item->id,
+            'name' => $item->user->name,
+            'address' => $item->address->full_address,
+            'post' => $item->post ? $item->post->name : '-'
+          ];
+        });
+
+        return JsonResponse::success(
+          data: VolunteerResource::collection($value)
+        );
+      }
+
+      if ($request->filled('district')) {
+        $value = $query->whereHas('address', function ($query) use ($request) {
+          $query->where('city', $request->query('city'))
+            ->where('district', $request->query('district'))
+            ->where('subdistrict', $request->query('subdistrict'));
+        })->get()->map(function ($item) {
+
+
+          return [
+            'id' => $item->id,
+            'name' => $item->user->name,
+            'address' => $item->address->full_address,
+            'post' => $item->post ? $item->post->name : '-'
           ];
         });
 
@@ -390,10 +411,193 @@ class VolunteerController extends Controller
         $value = $query->whereHas('address', function ($query) use ($request) {
           $query->where('city', $request->query('city'))->where('district', $request->query('district'));
         })->get()->map(function ($item) {
+
+
           return [
             'id' => $item->id,
             'name' => $item->user->name,
-            'voters_count' => $item->voters->count()
+            'address' => $item->address->full_address,
+            'post' => $item->post ? $item->post->name : '-'
+          ];
+        });
+
+        return JsonResponse::success(
+          data: VolunteerResource::collection($value)
+        );
+      }
+
+      if ($request->filled('city')) {
+        $query
+          ->select('district AS name', DB::raw('count(*) as total'))
+          ->groupBy('district')
+          ->where('city', $request->query('city'));
+
+        $total = $query->count();
+        $data = $query->get();
+        $value = $data->map(function ($item) {
+          // dd($item);
+
+          return [
+            'name' => $item->name,
+            'total' => $item->total ?? 0
+          ];
+        });
+
+        // dd($value);
+
+        return JsonResponse::success(
+          data: VolunteerResource::collection($value),
+        );
+      }
+    }
+
+    if ($request->query('filterType') == 'kinerja-relawan') {
+      $query = Volunteer::query()->with('address', 'user', 'post', 'votingLocation', 'party', 'organization');
+
+      if ($request->filled('rt')) {
+        $value = $query->whereHas('address', function ($query) use ($request) {
+          $city = $request->query('city');
+          $district = $request->query('district');
+          $subdistrict = $request->query('subdistrict');
+          $rw = $request->query('rw');
+          $rt = $request->query('rt');
+
+          $query->where('city', $city)
+            ->where('district', $district)
+            ->where('subdistrict', $subdistrict)
+            ->where('rw', $rw)
+            ->where('rt', $rt);
+        })->get()->map(function ($item) {
+          $points = 0;
+
+          if ($item->voters->count() > 0 && $item->voters->count() <= 20) {
+            $points = 1;
+          } else if ($item->voters->count() >= 20 && $item->voters->count() <= 40) {
+            $points = 2;
+          } else if ($item->voters->count() >= 40 && $item->voters->count() <= 60) {
+            $points =  3;
+          } else if ($item->voters->count() >= 60 && $item->voters->count() <= 80) {
+            $points = 4;
+          } else if ($item->voters->count() >= 100) {
+            $points = 5;
+          }
+
+
+          return [
+            'id' => $item->id,
+            'name' => $item->user->name,
+            'voters_count' => $item->voters->count(),
+            'points' => $points
+          ];
+        });
+
+        return JsonResponse::success(
+          data: VolunteerResource::collection($value)
+        );
+      }
+
+      if ($request->filled('rw')) {
+        $value = $query->whereHas('address', function ($query) use ($request) {
+          $city = $request->query('city');
+          $district = $request->query('district');
+          $subdistrict = $request->query('subdistrict');
+          $rw = $request->query('rw');
+
+          $query->where('city', $city)
+            ->where('district', $district)
+            ->where('subdistrict', $subdistrict)
+            ->where('rw', $rw);
+        })->get()->map(function ($item) {
+          $points = 0;
+
+          if ($item->voters->count() > 0 && $item->voters->count() <= 20) {
+            $points = 1;
+          } else if ($item->voters->count() >= 20 && $item->voters->count() <= 40) {
+            $points = 2;
+          } else if ($item->voters->count() >= 40 && $item->voters->count() <= 60) {
+            $points =  3;
+          } else if ($item->voters->count() >= 60 && $item->voters->count() <= 80) {
+            $points = 4;
+          } else if ($item->voters->count() >= 100) {
+            $points = 5;
+          }
+
+
+          return [
+            'id' => $item->id,
+            'name' => $item->user->name,
+            'voters_count' => $item->voters->count(),
+            'points' => $points
+          ];
+        });
+
+        return JsonResponse::success(
+          data: VolunteerResource::collection($value)
+        );
+      }
+
+      if ($request->filled('subdistrict')) {
+        $value = $query->whereHas('address', function ($query) use ($request) {
+          $city = $request->query('city');
+          $district = $request->query('district');
+          $subdistrict = $request->query('subdistrict');
+
+          $query->where('city', $city)
+            ->where('district', $district)
+            ->where('subdistrict', $subdistrict);
+        })->get()->map(function ($item) {
+          $points = 0;
+
+          if ($item->voters->count() > 0 && $item->voters->count() <= 20) {
+            $points = 1;
+          } else if ($item->voters->count() >= 20 && $item->voters->count() <= 40) {
+            $points = 2;
+          } else if ($item->voters->count() >= 40 && $item->voters->count() <= 60) {
+            $points =  3;
+          } else if ($item->voters->count() >= 60 && $item->voters->count() <= 80) {
+            $points = 4;
+          } else if ($item->voters->count() >= 100) {
+            $points = 5;
+          }
+
+
+          return [
+            'id' => $item->id,
+            'name' => $item->user->name,
+            'voters_count' => $item->voters->count(),
+            'points' => $points
+          ];
+        });
+
+        return JsonResponse::success(
+          data: VolunteerResource::collection($value)
+        );
+      }
+
+      if ($request->filled('district')) {
+        $value = $query->whereHas('address', function ($query) use ($request) {
+          $query->where('city', $request->query('city'))->where('district', $request->query('district'));
+        })->get()->map(function ($item) {
+          $points = 0;
+
+          if ($item->voters->count() > 0 && $item->voters->count() <= 20) {
+            $points = 1;
+          } else if ($item->voters->count() >= 20 && $item->voters->count() <= 40) {
+            $points = 2;
+          } else if ($item->voters->count() >= 40 && $item->voters->count() <= 60) {
+            $points =  3;
+          } else if ($item->voters->count() >= 60 && $item->voters->count() <= 80) {
+            $points = 4;
+          } else if ($item->voters->count() >= 100) {
+            $points = 5;
+          }
+
+
+          return [
+            'id' => $item->id,
+            'name' => $item->user->name,
+            'voters_count' => $item->voters->count(),
+            'points' => $points
           ];
         });
 
@@ -406,10 +610,26 @@ class VolunteerController extends Controller
         $value = $query->whereHas('address', function ($query) use ($request) {
           $query->where('city', $request->query('city'));
         })->get()->map(function ($item) {
+          $points = 0;
+
+          if ($item->voters->count() > 0 && $item->voters->count() <= 20) {
+            $points = 1;
+          } else if ($item->voters->count() >= 20 && $item->voters->count() <= 40) {
+            $points = 2;
+          } else if ($item->voters->count() >= 40 && $item->voters->count() <= 60) {
+            $points =  3;
+          } else if ($item->voters->count() >= 60 && $item->voters->count() <= 80) {
+            $points = 4;
+          } else if ($item->voters->count() >= 100) {
+            $points = 5;
+          }
+
+
           return [
             'id' => $item->id,
             'name' => $item->user->name,
-            'voters_count' => $item->voters->count()
+            'voters_count' => $item->voters->count(),
+            'points' => $points
           ];
         });
 
@@ -427,9 +647,26 @@ class VolunteerController extends Controller
         $total = $query->count();
         $data = $query->get();
         $value = $data->map(function ($item) {
+          $points = 0;
+
+          if ($item->voters->count() > 0 && $item->voters->count() <= 20) {
+            $points = 1;
+          } else if ($item->voters->count() >= 20 && $item->voters->count() <= 40) {
+            $points = 2;
+          } else if ($item->voters->count() >= 40 && $item->voters->count() <= 60) {
+            $points =  3;
+          } else if ($item->voters->count() >= 60 && $item->voters->count() <= 80) {
+            $points = 4;
+          } else if ($item->voters->count() >= 100) {
+            $points = 5;
+          }
+
+
           return [
-            'name' => $item->name,
-            'total' => $item->total ?? 0
+            'id' => $item->id,
+            'name' => $item->user->name,
+            'voters_count' => $item->voters->count(),
+            'points' => $points
           ];
         });
 
