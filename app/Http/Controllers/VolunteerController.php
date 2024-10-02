@@ -527,7 +527,7 @@ class VolunteerController extends Controller
           return [
             'id' => $item->id,
             'name' => $item->user->name,
-            'voters_count' => $item->voters->count(),
+            'voters_count' => $item->points,
             'points' => $points
           ];
         });
@@ -567,7 +567,7 @@ class VolunteerController extends Controller
           return [
             'id' => $item->id,
             'name' => $item->user->name,
-            'voters_count' => $item->voters->count(),
+            'voters_count' => $item->points,
             'points' => $points
           ];
         });
@@ -605,7 +605,7 @@ class VolunteerController extends Controller
           return [
             'id' => $item->id,
             'name' => $item->user->name,
-            'voters_count' => $item->voters->count(),
+            'voters_count' => $item->points,
             'points' => $points
           ];
         });
@@ -637,7 +637,7 @@ class VolunteerController extends Controller
           return [
             'id' => $item->id,
             'name' => $item->user->name,
-            'voters_count' => $item->voters->count(),
+            'voters_count' => $item->points,
             'points' => $points
           ];
         });
@@ -669,7 +669,7 @@ class VolunteerController extends Controller
           return [
             'id' => $item->id,
             'name' => $item->user->name,
-            'voters_count' => $item->voters->count(),
+            'voters_count' => $item->points,
             'points' => $points
           ];
         });
@@ -706,7 +706,7 @@ class VolunteerController extends Controller
           return [
             'id' => $item->id,
             'name' => $item->user->name,
-            'voters_count' => $item->voters->count(),
+            'voters_count' => $item->points,
             'points' => $points
           ];
         });
