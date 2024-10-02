@@ -360,9 +360,13 @@ class VolunteerController extends Controller
             'post' => $item->post ? $item->post->name : '-'
           ];
         });
+        $chart = $value->groupBy('post');
 
         return JsonResponse::success(
-          data: VolunteerResource::collection($value)
+          data: VolunteerResource::collection($value),
+          meta: [
+            'chart' => $chart
+          ]
         );
       }
 
@@ -384,9 +388,13 @@ class VolunteerController extends Controller
             'post' => $item->post ? $item->post->name : '-'
           ];
         });
+        $chart = $value->groupBy('post');
 
         return JsonResponse::success(
-          data: VolunteerResource::collection($value)
+          data: VolunteerResource::collection($value),
+          meta: [
+            'chart' => $chart
+          ]
         );
       }
 
@@ -405,9 +413,13 @@ class VolunteerController extends Controller
             'post' => $item->post ? $item->post->name : '-'
           ];
         });
+        $chart = $value->groupBy('post');
 
         return JsonResponse::success(
-          data: VolunteerResource::collection($value)
+          data: VolunteerResource::collection($value),
+          meta: [
+            'chart' => $chart
+          ]
         );
       }
 
@@ -425,9 +437,13 @@ class VolunteerController extends Controller
             'post' => $item->post ? $item->post->name : '-'
           ];
         });
+        $chart = $value->groupBy('post');
 
         return JsonResponse::success(
-          data: VolunteerResource::collection($value)
+          data: VolunteerResource::collection($value),
+          meta: [
+            'chart' => $chart
+          ]
         );
       }
 
@@ -445,9 +461,13 @@ class VolunteerController extends Controller
             'post' => $item->post ? $item->post->name : '-'
           ];
         });
+        $chart = $value->groupBy('post');
 
         return JsonResponse::success(
           data: VolunteerResource::collection($value),
+          meta: [
+            'chart' => $chart
+          ]
         );
       }
 
