@@ -343,7 +343,9 @@ class VolunteerController extends Controller
 
       if ($request->filled('rt')) {
         $value = $query->whereHas('address', function ($query) use ($request) {
-          $query->where('city', $request->query('city'))
+          $query
+            ->where('province', $request->query('province'))
+            ->where('city', $request->query('city'))
             ->where('district', $request->query('district'))
             ->where('subdistrict', $request->query('subdistrict'))
             ->where('rw', $request->query('rw'))
@@ -366,7 +368,9 @@ class VolunteerController extends Controller
 
       if ($request->filled('rw')) {
         $value = $query->whereHas('address', function ($query) use ($request) {
-          $query->where('city', $request->query('city'))
+          $query
+            ->where('province', $request->query('province'))
+            ->where('city', $request->query('city'))
             ->where('district', $request->query('district'))
             ->where('subdistrict', $request->query('subdistrict'))
             ->where('rw', $request->query('rw'));
@@ -386,14 +390,14 @@ class VolunteerController extends Controller
         );
       }
 
-      if ($request->filled('district')) {
+      if ($request->filled('subdistrict')) {
         $value = $query->whereHas('address', function ($query) use ($request) {
-          $query->where('city', $request->query('city'))
+          $query
+            ->where('province', $request->query('province'))
+            ->where('city', $request->query('city'))
             ->where('district', $request->query('district'))
             ->where('subdistrict', $request->query('subdistrict'));
         })->get()->map(function ($item) {
-
-
           return [
             'id' => $item->id,
             'name' => $item->user->name,
@@ -409,10 +413,11 @@ class VolunteerController extends Controller
 
       if ($request->filled('district')) {
         $value = $query->whereHas('address', function ($query) use ($request) {
-          $query->where('city', $request->query('city'))->where('district', $request->query('district'));
+          $query
+            ->where('province', $request->query('province'))
+            ->where('city', $request->query('city'))
+            ->where('district', $request->query('district'));
         })->get()->map(function ($item) {
-
-
           return [
             'id' => $item->id,
             'name' => $item->user->name,
@@ -427,23 +432,39 @@ class VolunteerController extends Controller
       }
 
       if ($request->filled('city')) {
-        $query
-          ->select('district AS name', DB::raw('count(*) as total'))
-          ->groupBy('district')
-          ->where('city', $request->query('city'));
-
-        $total = $query->count();
-        $data = $query->get();
-        $value = $data->map(function ($item) {
-          // dd($item);
+        $value = $query->whereHas('address', function ($query) use ($request) {
+          $query
+            ->where('province', $request->query('province'))
+            ->where('city', $request->query('city'));
+        })->get()->map(function ($item) {
 
           return [
-            'name' => $item->name,
-            'total' => $item->total ?? 0
+            'id' => $item->id,
+            'name' => $item->user->name,
+            'address' => $item->address->full_address,
+            'post' => $item->post ? $item->post->name : '-'
           ];
         });
 
-        // dd($value);
+        return JsonResponse::success(
+          data: VolunteerResource::collection($value),
+        );
+      }
+
+      if ($request->filled('province')) {
+        $value = $query->whereHas('address', function ($query) use ($request) {
+          $query
+            ->where('province', $request->query('province'))
+            ->where('city', $request->query('city'));
+        })->get()->map(function ($item) {
+
+          return [
+            'id' => $item->id,
+            'name' => $item->user->name,
+            'address' => $item->address->full_address,
+            'post' => $item->post ? $item->post->name : '-'
+          ];
+        });
 
         return JsonResponse::success(
           data: VolunteerResource::collection($value),
