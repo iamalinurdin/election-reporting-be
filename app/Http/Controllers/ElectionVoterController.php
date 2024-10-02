@@ -222,8 +222,19 @@ class ElectionVoterController extends Controller
           ->where('rt', $rt);
       })->get();
 
+      $sex = $value->groupBy('sex');
+      $age = $value->groupBy('age_classification');
+
+      $meta = [
+        'chart' => [
+          'sex' => $sex,
+          'age' => $age,
+        ]
+      ];
+
       return JsonResponse::success(
-        data: ElectionVoterResource::collection($value)
+        data: ElectionVoterResource::collection($value),
+        meta: $meta
       );
     }
 
@@ -242,8 +253,19 @@ class ElectionVoterController extends Controller
           ->where('rw', $rw);
       })->get();
 
+      $sex = $value->groupBy('sex');
+      $age = $value->groupBy('age_classification');
+
+      $meta = [
+        'chart' => [
+          'sex' => $sex,
+          'age' => $age,
+        ]
+      ];
+
       return JsonResponse::success(
-        data: ElectionVoterResource::collection($value)
+        data: ElectionVoterResource::collection($value),
+        meta: $meta
       );
     }
 
@@ -260,8 +282,19 @@ class ElectionVoterController extends Controller
           ->where('subdistrict', $subdistrict);
       })->get();
 
+      $sex = $value->groupBy('sex');
+      $age = $value->groupBy('age_classification');
+
+      $meta = [
+        'chart' => [
+          'sex' => $sex,
+          'age' => $age,
+        ]
+      ];
+
       return JsonResponse::success(
-        data: ElectionVoterResource::collection($value)
+        data: ElectionVoterResource::collection($value),
+        meta: $meta
       );
     }
 
@@ -276,8 +309,19 @@ class ElectionVoterController extends Controller
           ->where('district', $district);
       })->get();
 
+      $sex = $value->groupBy('sex');
+      $age = $value->groupBy('age_classification');
+
+      $meta = [
+        'chart' => [
+          'sex' => $sex,
+          'age' => $age,
+        ]
+      ];
+
       return JsonResponse::success(
-        data: ElectionVoterResource::collection($value)
+        data: ElectionVoterResource::collection($value),
+        meta: $meta
       );
     }
 
@@ -289,9 +333,19 @@ class ElectionVoterController extends Controller
         $query->where('province', $province)
           ->where('city', $city);
       })->get();
+      $sex = $value->groupBy('sex');
+      $age = $value->groupBy('age_classification');
+
+      $meta = [
+        'chart' => [
+          'sex' => $sex,
+          'age' => $age,
+        ]
+      ];
 
       return JsonResponse::success(
-        data: ElectionVoterResource::collection($value)
+        data: ElectionVoterResource::collection($value),
+        meta: $meta
       );
     }
   }
