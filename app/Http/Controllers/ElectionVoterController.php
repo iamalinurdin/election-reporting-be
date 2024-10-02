@@ -195,4 +195,104 @@ class ElectionVoterController extends Controller
   {
     return Excel::download(new VoterExport, 'voters.xlsx');
   }
+
+  public function summary(Request $request)
+  {
+    $query = ElectionVoter::query()->with('address');
+    $value = $query->get();
+
+    if ($request->filled('form')) {
+      $query->where('voter_type', $request->query('form'));
+    }
+
+    if ($request->filled('rt')) {
+      $value = $query->whereHas('address', function ($query) use ($request) {
+        $province = $request->query('province');
+        $city = $request->query('city');
+        $district = $request->query('district');
+        $subdistrict = $request->query('subdistrict');
+        $rw = $request->query('rw');
+        $rt = $request->query('rt');
+
+        $query->where('province', $province)
+          ->where('city', $city)
+          ->where('district', $district)
+          ->where('subdistrict', $subdistrict)
+          ->where('rw', $rw)
+          ->where('rt', $rt);
+      })->get();
+
+      return JsonResponse::success(
+        data: ElectionVoterResource::collection($value)
+      );
+    }
+
+    if ($request->filled('rw')) {
+      $value = $query->whereHas('address', function ($query) use ($request) {
+        $province = $request->query('province');
+        $city = $request->query('city');
+        $district = $request->query('district');
+        $subdistrict = $request->query('subdistrict');
+        $rw = $request->query('rw');
+
+        $query->where('province', $province)
+          ->where('city', $city)
+          ->where('district', $district)
+          ->where('subdistrict', $subdistrict)
+          ->where('rw', $rw);
+      })->get();
+
+      return JsonResponse::success(
+        data: ElectionVoterResource::collection($value)
+      );
+    }
+
+    if ($request->filled('subdistrict')) {
+      $value = $query->whereHas('address', function ($query) use ($request) {
+        $province = $request->query('province');
+        $city = $request->query('city');
+        $district = $request->query('district');
+        $subdistrict = $request->query('subdistrict');
+
+        $query->where('province', $province)
+          ->where('city', $city)
+          ->where('district', $district)
+          ->where('subdistrict', $subdistrict);
+      })->get();
+
+      return JsonResponse::success(
+        data: ElectionVoterResource::collection($value)
+      );
+    }
+
+    if ($request->filled('district')) {
+      $value = $query->whereHas('address', function ($query) use ($request) {
+        $province = $request->query('province');
+        $city = $request->query('city');
+        $district = $request->query('district');
+
+        $query->where('province', $province)
+          ->where('city', $city)
+          ->where('district', $district);
+      })->get();
+
+      return JsonResponse::success(
+        data: ElectionVoterResource::collection($value)
+      );
+    }
+
+    if ($request->filled('city')) {
+      $value = $query->whereHas('address', function ($query) use ($request) {
+        $province = $request->query('province');
+        $city = $request->query('city');
+
+        $query->where('province', $province)
+          ->where('city', $city);
+      })->get();
+
+      return JsonResponse::success(
+        data: ElectionVoterResource::collection($value)
+      );
+    }
+  }
 }

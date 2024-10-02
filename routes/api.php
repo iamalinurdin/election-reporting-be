@@ -63,6 +63,7 @@ Route::get('voters/export', [ElectionVoterController::class, 'export']);
 Route::put('users/toggle-status', [UserController::class, 'toggleStatus']);
 Route::get('recapitulation-results/summary', [RecapitulationResultController::class, 'summary']);
 Route::get('volunteers/summary', [VolunteerController::class, 'summary']);
+Route::get('election-voters/summary', [ElectionVoterController::class, 'summary']);
 
 Route::middleware('auth:sanctum')->group(function () {
   Route::get('notifications', [NotificationController::class, 'index']);
