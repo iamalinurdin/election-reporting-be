@@ -99,6 +99,7 @@ class ElectionVoterController extends Controller
       DB::beginTransaction();
 
       $user = $request->user();
+      $nik = $request->post('nik');
 
       if ($user->role == 'volunteer') {
         $volunteer = Volunteer::query()->whereHas('user', function ($query) use ($user) {
@@ -106,29 +107,51 @@ class ElectionVoterController extends Controller
         })->first();
       }
 
-      $data = ElectionVoter::create([
-        'volunteer_id' => $user->role == 'volunteer' ? $volunteer->id : $request->post('volunteer_id'),
-        'voting_location_id' => $request->post('voting_location_id'),
-        'name' => $request->post('name'),
-        'nik' => $request->post('nik'),
-        'age_classification' => $request->post('age_classification'),
-        'sex' => $request->post('sex'),
-        'coordinate' => $request->post('coordinate'),
-        'evidence' => $request->post('evidence'),
-        'voter_type' => $request->post('voter_type'),
-      ]);
+      $validateNIK = ElectionVoter::where('nik', $nik)->first();
 
-      $data->address()->create([
-        'address' => $request->post('address'),
-        'subdistrict' => $request->post('subdistrict'),
-        'district' => $request->post('district'),
-        'city' => $request->post('city'),
-        'province' => $request->post('province'),
-      ]);
+      if (!$validateNIK) {
+        $data = ElectionVoter::create([
+          'volunteer_id' => $user->role == 'volunteer' ? $volunteer->id : $request->post('volunteer_id'),
+          'voting_location_id' => $request->post('voting_location_id'),
+          'name' => $request->post('name'),
+          'nik' => $request->post('nik'),
+          'age_classification' => $request->post('age_classification'),
+          'sex' => $request->post('sex'),
+          'coordinate' => $request->post('coordinate'),
+          'evidence' => $request->post('evidence'),
+          'voter_type' => $request->post('voter_type'),
+        ]);
 
-      // $volunteer->update([
-      //   'points' => $volunteer->points += 1
-      // ]);
+        $data->address()->create([
+          'address' => $request->post('address'),
+          'subdistrict' => $request->post('subdistrict'),
+          'district' => $request->post('district'),
+          'city' => $request->post('city'),
+          'province' => $request->post('province'),
+        ]);
+
+        $volunteer->update([
+          'points' => $volunteer->points += 1
+        ]);
+      } else {
+        $data = $validateNIK->update([
+          'voting_location_id' => $request->post('voting_location_id'),
+          'name' => $request->post('name'),
+          'age_classification' => $request->post('age_classification'),
+          'sex' => $request->post('sex'),
+          'coordinate' => $request->post('coordinate'),
+          'evidence' => $request->post('evidence'),
+          'voter_type' => $request->post('voter_type'),
+        ]);
+
+        $data->address()->update([
+          'address' => $request->post('address'),
+          'subdistrict' => $request->post('subdistrict'),
+          'district' => $request->post('district'),
+          'city' => $request->post('city'),
+          'province' => $request->post('province'),
+        ]);
+      }
 
       DB::commit();
 
