@@ -193,29 +193,49 @@ class VolunteerController extends Controller
         'email' => $email,
         'password' => Hash::make($email),
       ]);
-
+      $nik = $request->post('nik');
+      $validateNIK = Volunteer::where('nik', $nik)->first();
       $user->assignRole($request->post('role'));
 
-      $volunteer = Volunteer::create([
-        'added_by' => $addedBy->id,
-        'user_id' => $user->id,
-        'party_id' => $request->post('party_id'),
-        'organization_id' => $request->post('organization_id'),
-        'voting_location_id' => $request->post('voting_location_id'),
-        'post_id' => $request->post('post_id'),
-        'nik' => $request->post('nik'),
-        'phone_number' => $request->post('phone_number'),
-        'coordinate' => $request->post('coordinate'),
-        'points' => 0
-      ]);
+      if (!$validateNIK) {
+        $volunteer = Volunteer::create([
+          'added_by' => $addedBy->id,
+          'user_id' => $user->id,
+          'party_id' => $request->post('party_id'),
+          'organization_id' => $request->post('organization_id'),
+          'voting_location_id' => $request->post('voting_location_id'),
+          'post_id' => $request->post('post_id'),
+          'nik' => $request->post('nik'),
+          'phone_number' => $request->post('phone_number'),
+          'coordinate' => $request->post('coordinate'),
+          'points' => 0
+        ]);
 
-      $volunteer->address()->create([
-        'address' => $request->post('address'),
-        'subdistrict' => $request->post('subdistrict'),
-        'district' => $request->post('district'),
-        'city' => $request->post('city'),
-        'province' => $request->post('province'),
-      ]);
+        $volunteer->address()->create([
+          'address' => $request->post('address'),
+          'subdistrict' => $request->post('subdistrict'),
+          'district' => $request->post('district'),
+          'city' => $request->post('city'),
+          'province' => $request->post('province'),
+        ]);
+      } else {
+        $validateNIK->update([
+          'party_id' => $request->post('party_id'),
+          'organization_id' => $request->post('organization_id'),
+          'voting_location_id' => $request->post('voting_location_id'),
+          'post_id' => $request->post('post_id'),
+          'phone_number' => $request->post('phone_number'),
+          'coordinate' => $request->post('coordinate'),
+        ]);
+
+        $validateNIK->address()->update([
+          'address' => $request->post('address'),
+          'subdistrict' => $request->post('subdistrict'),
+          'district' => $request->post('district'),
+          'city' => $request->post('city'),
+          'province' => $request->post('province'),
+        ]);
+      }
 
       DB::commit();
 

@@ -134,7 +134,7 @@ class ElectionVoterController extends Controller
           'points' => $volunteer->points += 1
         ]);
       } else {
-        $data = $validateNIK->update([
+        $validateNIK->update([
           'voting_location_id' => $request->post('voting_location_id'),
           'name' => $request->post('name'),
           'age_classification' => $request->post('age_classification'),
@@ -144,7 +144,7 @@ class ElectionVoterController extends Controller
           'voter_type' => $request->post('voter_type'),
         ]);
 
-        $data->address()->update([
+        $validateNIK->address()->update([
           'address' => $request->post('address'),
           'subdistrict' => $request->post('subdistrict'),
           'district' => $request->post('district'),
