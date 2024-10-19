@@ -5,7 +5,9 @@ namespace App\Imports;
 use App\Models\Address;
 use App\Models\User;
 use App\Models\Volunteer;
+use Error;
 use Illuminate\Support\Facades\Hash;
+use Maatwebsite\Excel\Concerns\Importable;
 use Maatwebsite\Excel\Concerns\SkipsEmptyRows;
 use Maatwebsite\Excel\Concerns\SkipsErrors;
 use Maatwebsite\Excel\Concerns\SkipsFailures;
@@ -13,10 +15,11 @@ use Maatwebsite\Excel\Concerns\SkipsOnError;
 use Maatwebsite\Excel\Concerns\SkipsOnFailure;
 use Maatwebsite\Excel\Concerns\ToModel;
 use Maatwebsite\Excel\Concerns\WithHeadingRow;
+use Maatwebsite\Excel\Concerns\WithValidation;
 
-class VolunteerImport implements ToModel, WithHeadingRow, SkipsEmptyRows, SkipsOnError, SkipsOnFailure
+class VolunteerImport implements ToModel, WithHeadingRow, SkipsEmptyRows, SkipsOnError, SkipsOnFailure, WithValidation
 {
-  use SkipsErrors, SkipsFailures;
+  use SkipsErrors, SkipsFailures, Importable;
 
   /**
    * @param array $row
@@ -86,6 +89,26 @@ class VolunteerImport implements ToModel, WithHeadingRow, SkipsEmptyRows, SkipsO
     } catch (\Exception $e) {
       // Optionally, log the error for further analysis
       // \Log::error('Import error: ' . $e->getMessage());
+
     }
+  }
+
+  public function rules(): array
+  {
+    return [
+      'nama' => ['required'],
+      'email' => ['required'],
+      'no_telepon' => ['required'],
+      'nik' => ['required'],
+    ];
+  }
+
+  /**
+   * @param \Throwable $e
+   */
+  public function onError(\Throwable $e)
+  {
+    dd($e);
+    // Handle the exception how you'd like.
   }
 }

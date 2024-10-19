@@ -65,7 +65,8 @@ class RegistrationController extends Controller
         'nik' => $request->post('nik'),
         'coordinate' => $request->post('coordinate'),
         'has_organization' => $request->post('has_organization'),
-        'organization_id' => $request->post('organization_id', null)
+        'organization_id' => $request->post('organization_id', null),
+        'party_id' => $request->post('party_id', null)
       ]);
 
       $data->address()->create([
@@ -196,7 +197,7 @@ class RegistrationController extends Controller
         $volunteer = Volunteer::create([
           'voting_location_id' => $request->post('voting_location_id'),
           'post_id' => $request->post('post_id'),
-          'party_id' => $request->post('party_id'),
+          'party_id' => $data->party_id,
           'nik' => $data->nik,
           'phone_number' => $data->phone_number,
           'coordinate' => $data->coordinate,
