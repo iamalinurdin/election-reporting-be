@@ -9,6 +9,7 @@ use App\Models\Relawan;
 use App\Models\User;
 use App\Models\Volunteer;
 use Exception;
+use Illuminate\Database\QueryException;
 use Illuminate\Http\Request;
 use Illuminate\Http\Response;
 use Illuminate\Support\Facades\DB;
@@ -82,6 +83,15 @@ class RegistrationController extends Controller
       return JsonResponse::success(
         data: new RegistrationResource($data)
       );
+    } catch (QueryException $exception) {
+      DB::rollBack();
+
+      if ($exception->errorInfo[1] == 1062) {
+        return JsonResponse::error(
+          code: Response::HTTP_CONFLICT,
+          message: $exception->errorInfo[2]
+        );
+      }
     } catch (Exception $exception) {
       DB::rollBack();
 
