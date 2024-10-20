@@ -89,7 +89,7 @@ class RegistrationController extends Controller
       if ($exception->errorInfo[1] == 1062) {
         return JsonResponse::error(
           code: Response::HTTP_CONFLICT,
-          message: $exception->errorInfo[2]
+          message: "Email, NIK KTP atau no. handphone sudah terdaftar"
         );
       }
     } catch (Exception $exception) {
